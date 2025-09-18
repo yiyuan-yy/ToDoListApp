@@ -36,6 +36,7 @@ struct TaskView: View {
                         .clipShape(RoundedRectangle(cornerRadius: 20))
                 }
             })
+            
         }
     }
     
