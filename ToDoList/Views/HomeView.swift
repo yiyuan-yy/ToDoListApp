@@ -14,11 +14,19 @@ struct HomeView: View {
         NavigationStack {
             VStack{
                 List{
-                    ForEach(toDoManager.tasks){task in
-                        TaskView(toDoManager: toDoManager, task: task)
+                    ForEach(Task.StatusType.allCases){status in
+                        Section(status.name) {
+                            ForEach(toDoManager.groupedTask(status)){task in
+                                TaskView(toDoManager: toDoManager, task: task)
+                            }
+                            .onDelete{ indexSet in
+                                toDoManager.delete(at: indexSet, by: status)
+                            }
+                        }
+                        
                     }
-                    .onDelete(perform: toDoManager.delete)
                 }
+                .listStyle(.inset)
                 
             }
             .navigationTitle("Tasks")

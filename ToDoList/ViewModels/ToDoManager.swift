@@ -11,6 +11,10 @@ class ToDoManager: ObservableObject{
     @Published var tasks: [Task] = ToDoManager.example
     @Published var showAlert = false
     @Published var alertMessage: String = ""
+    
+    func groupedTask (_ status: Task.StatusType)-> [Task] {
+        return tasks.filter{$0.status == status}
+    }
 
     
     // switch status of a task
@@ -27,7 +31,6 @@ class ToDoManager: ObservableObject{
         if let index = tasks.firstIndex(of: task){
             tasks[index].status = newStatus
         }
-        
     }
     
     //Mark create task
@@ -60,8 +63,14 @@ class ToDoManager: ObservableObject{
     }
     
     // Delete a task
-    func delete(at indexSet: IndexSet){
-        tasks.remove(atOffsets: indexSet)
+    func delete(at indexSet: IndexSet, by status: Task.StatusType){
+        let filteredTasks = groupedTask(status)
+        for index in indexSet{
+            if let index = tasks.firstIndex(of: filteredTasks[index] ){
+                tasks.remove(at:index)
+            }
+        }
+        print(tasks.count)
     }
 }
 

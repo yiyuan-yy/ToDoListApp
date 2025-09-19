@@ -21,7 +21,6 @@ struct TaskView: View {
             .buttonStyle(.borderless)
             .animation(.spring, value: task.status)
             
-            
             NavigationLink (destination: {
                 CreateView(toDoManager: toDoManager, taskToEdit: task)
             }, label: {
@@ -36,7 +35,6 @@ struct TaskView: View {
                         .clipShape(RoundedRectangle(cornerRadius: 20))
                 }
             })
-            
         }
     }
     

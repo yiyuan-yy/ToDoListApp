@@ -18,9 +18,7 @@ struct Task: Identifiable, Equatable{
     enum PriorityType: Int, CaseIterable, Identifiable{
         case normal, urgent, optional
         
-        var id: Self{
-            self
-        }
+        var id: Self {return self}
         
         var name: String {
             switch self {
@@ -55,8 +53,10 @@ struct Task: Identifiable, Equatable{
         }
     }
     
-    enum StatusType: Int, CaseIterable{
+    enum StatusType: Int, CaseIterable, Identifiable{
         case todo, doing, done
+        
+        var id: Self {return self}
         
         var name: String{
             switch self {
