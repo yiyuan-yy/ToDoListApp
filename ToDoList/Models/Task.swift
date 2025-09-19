@@ -14,6 +14,9 @@ struct Task: Identifiable, Equatable{
     var priority: PriorityType = .normal
     var ddl: Date? = nil
     var status: StatusType = .todo
+    var ddlExist: Bool{
+        ddl == nil ? false : true
+    }
     
     enum PriorityType: Int, CaseIterable, Identifiable{
         case normal, urgent, optional
@@ -74,9 +77,9 @@ struct Task: Identifiable, Equatable{
             case .todo:
                 return "circle"
             case .doing:
-                return "minus.circle"
+                return "minus.circle.fill"
             case .done:
-                return "checkmark.circle"
+                return "checkmark.circle.fill"
             }
         }
     }

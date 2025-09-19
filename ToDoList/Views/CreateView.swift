@@ -13,21 +13,26 @@ struct CreateView: View {
     @Environment(\.dismiss) var dismiss
     var taskToEdit: Task? = nil
     
+    @State private var showDatePicker = false
+    @State private var dueDate: Date = Date()
+    
     init(toDoManager: ToDoManager, taskToEdit: Task? = nil) {
         self.toDoManager = toDoManager
         if let taskToEdit = taskToEdit{
             self.taskToEdit = taskToEdit
             self._draft = State(initialValue: taskToEdit)
+            self._showDatePicker = State(initialValue: taskToEdit.ddlExist)
+            self._dueDate = State(initialValue: taskToEdit.ddl ?? Date())
         }
-       
     }
     
     var body: some View {
-        VStack(spacing: 30){
+        VStack(spacing: 35){
             taskTitle
+                .padding(.top, 30)
             priorityView
             createOrUpdateButton
-                
+
             Spacer()
 
         }
@@ -47,14 +52,25 @@ struct CreateView: View {
         VStack{
             if let taskToEdit = taskToEdit{
                 ButtonView(action: {
-                    toDoManager.update(old: taskToEdit, new: draft)
-                    dismiss()
+                    setDDL()
+                    if (toDoManager.update(old: taskToEdit, new: draft)){
+                        dismiss()
+                    }
                 }, text: "Update")
             } else {
                 ButtonView(action: {
+                    setDDL()
                     toDoManager.createToDo(draft)
                 }, text: "Create")
             }
+        }
+    }
+    
+    private func setDDL(){
+        if showDatePicker {
+            draft.ddl = dueDate
+        } else {
+            draft.ddl = nil
         }
     }
     
@@ -65,10 +81,38 @@ struct CreateView: View {
                     .font(.headline)
                     .padding(.top)
                 Spacer()
+                dueDateField
             }
             TextField("Title", text: $draft.title)
                 .textFieldStyle(.roundedBorder)
         }
+    }
+    
+    private var dueDateField: some View{
+        HStack {
+            Button {
+                showDatePicker.toggle()
+            } label: {
+                if !showDatePicker{
+                    Label {
+                        Text("Due Date")
+                    } icon: {
+                        Image(systemName: "plus.circle.fill")
+                    }
+                    .foregroundStyle(.primary)
+                } else {
+                    Spacer()
+                    Image(systemName: "minus.circle.fill")
+                        .symbolRenderingMode(.palette)
+                        .foregroundStyle(.white, .red)
+                }
+            }
+            if showDatePicker{
+                DatePicker("", selection: $dueDate, displayedComponents: .date)
+                    .datePickerStyle(.compact)
+            }
+        }
+        
     }
     
     private var priorityView: some View{

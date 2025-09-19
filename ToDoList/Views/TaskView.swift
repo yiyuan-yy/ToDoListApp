@@ -8,38 +8,61 @@ import SwiftUI
 
 struct TaskView: View {
     @StateObject var toDoManager: ToDoManager
-    var task: Task
+    let task: Task
+    @State var showFullLabel = false
+    @State private var navigateToDetail = false
     
     var body: some View {
         HStack {
             Button {
-                toDoManager.switchStatus(task)
+                withAnimation(.spring) {
+                    toDoManager.switchStatus(task)
+                }
             } label: {
                 Image(systemName: task.status.imgName)
+                    .symbolRenderingMode(.palette)
                     .font(.system(size: 20))
+                    .foregroundStyle(task.status != .todo ? .white : .blue, task.status == .done ? .darkGreenC : .blue)
             }
             .buttonStyle(.borderless)
-            .animation(.spring, value: task.status)
+        
             
-            NavigationLink (destination: {
-                CreateView(toDoManager: toDoManager, taskToEdit: task)
-            }, label: {
+            Button {
+                navigateToDetail = true
+            } label: {
                 HStack {
                     Text(task.title.capitalized)
                     Spacer()
-                    
-                    Text(task.priority.name)
-                        .foregroundStyle(task.priority.textColor)
-                        .frame(width: 100, height: 30, alignment: .center)
-                        .background(task.priority.backgroundColor)
-                        .clipShape(RoundedRectangle(cornerRadius: 20))
                 }
-            })
+            }
+
+            priorityLabel
+            
+            Image(systemName: "chevron.right")
+                .foregroundStyle(.gray)
+           
+        }
+        .navigationDestination(isPresented: $navigateToDetail) {
+            CreateView(toDoManager: toDoManager, taskToEdit: task)
         }
     }
     
+    private var priorityLabel: some View{
+        Button {
+            showFullLabel.toggle()
+        } label: {
+            Text(showFullLabel ? task.priority.name : "")
+                .font(.caption)
+                .foregroundStyle(task.priority.textColor)
+                .frame(width: showFullLabel ? 60 : 30, height: showFullLabel ? 25 : 10, alignment: .center)
+                .background(task.priority.backgroundColor)
+                .clipShape(RoundedRectangle(cornerRadius: 20))
+        }
+        .buttonStyle(.borderless)
+        .animation(.spring, value: showFullLabel)
+
+    }
+    
+    
 }
 
-#Preview {
-    TaskView(toDoManager: ToDoManager(), task: Task())
-}

@@ -23,19 +23,12 @@ struct HomeView: View {
                                 toDoManager.delete(at: indexSet, by: status)
                             }
                         }
-                        
                     }
                 }
-                .listStyle(.inset)
-                
             }
             .navigationTitle("Tasks")
             .toolbar{
-                Button {
-                    toDoManager.showCreateSheet = true
-                } label: {
-                    Image(systemName: "plus")
-                }
+                createButton
             }
             .sheet(isPresented: $toDoManager.showCreateSheet) {
                 CreateView(toDoManager: toDoManager)
@@ -43,6 +36,15 @@ struct HomeView: View {
             }
         }
     }
+    
+    private var createButton: some View{
+        Button {
+            toDoManager.showCreateSheet = true
+        } label: {
+            Image(systemName: "plus")
+        }
+    }
+    
 }
 
 #Preview {

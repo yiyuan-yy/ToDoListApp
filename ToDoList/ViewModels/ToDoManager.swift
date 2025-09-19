@@ -54,12 +54,14 @@ class ToDoManager: ObservableObject{
         }
     }
     
-    func update(old: Task, new: Task){
+    func update(old: Task, new: Task) -> Bool {
         if let index = tasks.firstIndex(of: old){
             if validate(new){
                 tasks[index] = new
+                return true
             }
         }
+        return false
     }
     
     // Delete a task
@@ -70,7 +72,6 @@ class ToDoManager: ObservableObject{
                 tasks.remove(at:index)
             }
         }
-        print(tasks.count)
     }
 }
 
