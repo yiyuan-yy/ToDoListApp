@@ -27,16 +27,25 @@ struct CreateView: View {
     }
     
     var body: some View {
-        VStack(spacing: 35){
-            taskTitle
-                .padding(.top, 30)
-            priorityView
+        Form {
+            // Title
+            TextField("Title", text: $draft.title)
+                .textFieldStyle(.plain)
+                .font(.title)
+                .padding(.top)
+            
+            // Priority
+//            Picker("Priority \(draft.priority?.name ?? "")", selection: $draft.priority){
+//                ForEach(Task.PriorityType.allCases){type in
+//                    Text(type.name)
+//                        .tag(type)
+//                }
+//            }
+//            .pickerStyle(.menu)
+//            
+//            
             createOrUpdateButton
-
-            Spacer()
-
         }
-        .padding(.horizontal)
         .alert("", isPresented: $toDoManager.showAlert, actions: {
             Button {
                 toDoManager.showAlert = false
@@ -46,6 +55,8 @@ struct CreateView: View {
         }, message: {
             Text(toDoManager.alertMessage)
         })
+        
+        
     }
     
     private var createOrUpdateButton: some View{
@@ -74,19 +85,6 @@ struct CreateView: View {
         }
     }
     
-    private var taskTitle: some View{
-        VStack {
-            HStack {
-                Text("Task Title")
-                    .font(.headline)
-                    .padding(.top)
-                Spacer()
-                dueDateField
-            }
-            TextField("Title", text: $draft.title)
-                .textFieldStyle(.roundedBorder)
-        }
-    }
     
     private var dueDateField: some View{
         HStack {
@@ -115,23 +113,7 @@ struct CreateView: View {
         
     }
     
-    private var priorityView: some View{
-        VStack {
-            HStack {
-                Text("Priority")
-                    .font(.headline)
-                    .padding(.top)
-                Spacer()
-            }
-            Picker("Priority", selection: $draft.priority){
-                ForEach(Task.PriorityType.allCases){type in
-                    Text(type.name)
-                        .tag(type)
-                }
-            }
-            .pickerStyle(.segmented)
-        }
-    }
+
     
 }
 

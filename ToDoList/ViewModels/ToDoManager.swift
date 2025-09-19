@@ -12,14 +12,30 @@ class ToDoManager: ObservableObject{
     @Published var showAlert = false
     @Published var alertMessage: String = ""
     
-    func groupedTask (_ status: Task.StatusType)-> [Task] {
+    // MARK: - Group tasks in sections by status type
+    // tasks data grouped
+    func groupedTask (_ status: StatusType)-> [Task] {
         return tasks.filter{$0.status == status}
+    }
+    
+    // section expanded status
+    @Published var expanded: [StatusType: Bool] = {
+        var dict = [StatusType: Bool]()
+        for status in StatusType.allCases {
+            dict[status] = true // all expanded by default
+        }
+        return dict
+    } ()
+    
+    // function to toggle expanded status
+    func toggleExpanded(_ status: StatusType) {
+        expanded[status]?.toggle()
     }
 
     
-    // switch status of a task
+    // MARK: - Manage status of a task
     func switchStatus(_ task: Task){
-        var newStatus: Task.StatusType = .todo
+        var newStatus: StatusType = .todo
         switch task.status {
         case .todo:
             newStatus = .doing
@@ -33,7 +49,7 @@ class ToDoManager: ObservableObject{
         }
     }
     
-    //Mark create task
+    // MARK: - CREATE
     @Published var showCreateSheet = false
     
     private func validate(_ new: Task) ->Bool {
@@ -54,6 +70,7 @@ class ToDoManager: ObservableObject{
         }
     }
     
+    // MARK: - Upate
     func update(old: Task, new: Task) -> Bool {
         if let index = tasks.firstIndex(of: old){
             if validate(new){
@@ -64,8 +81,8 @@ class ToDoManager: ObservableObject{
         return false
     }
     
-    // Delete a task
-    func delete(at indexSet: IndexSet, by status: Task.StatusType){
+    // MARK: - Delete
+    func delete(at indexSet: IndexSet, by status: StatusType){
         let filteredTasks = groupedTask(status)
         for index in indexSet{
             if let index = tasks.firstIndex(of: filteredTasks[index] ){

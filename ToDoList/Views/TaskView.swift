@@ -21,7 +21,7 @@ struct TaskView: View {
             } label: {
                 Image(systemName: task.status.imgName)
                     .symbolRenderingMode(.palette)
-                    .font(.system(size: 20))
+                    .font(.system(size: 18))
                     .foregroundStyle(task.status != .todo ? .white : .blue, task.status == .done ? .darkGreenC : .blue)
             }
             .buttonStyle(.borderless)
@@ -51,12 +51,14 @@ struct TaskView: View {
         Button {
             showFullLabel.toggle()
         } label: {
-            Text(showFullLabel ? task.priority.name : "")
-                .font(.caption)
-                .foregroundStyle(task.priority.textColor)
-                .frame(width: showFullLabel ? 60 : 30, height: showFullLabel ? 25 : 10, alignment: .center)
-                .background(task.priority.backgroundColor)
-                .clipShape(RoundedRectangle(cornerRadius: 20))
+            if let priority = task.priority {
+                Text(showFullLabel ? priority.name : "")
+                    .font(.caption)
+                    .foregroundStyle(priority.textColor)
+                    .frame(width: showFullLabel ? 60 : 30, height: showFullLabel ? 25 : 10, alignment: .center)
+                    .background(priority.backgroundColor)
+                    .clipShape(RoundedRectangle(cornerRadius: 20))
+            }
         }
         .buttonStyle(.borderless)
         .animation(.spring, value: showFullLabel)
