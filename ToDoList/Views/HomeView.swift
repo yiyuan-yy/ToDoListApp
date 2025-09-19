@@ -23,6 +23,7 @@ struct HomeView: View {
                                 toDoManager.delete(at: indexSet, by: status)
                             }
                         }
+                        
                     }
                 }
             }
