@@ -14,32 +14,19 @@ struct HomeView: View {
 
         NavigationStack {
             VStack{
-                List(StatusType.allCases){ status in
+                List(toDoManager.tasksBySection){ section in
                     Section {
-                        if toDoManager.expanded[status] == true {
-                            ForEach(toDoManager.groupedTask(status)){task in
-                                TaskView(toDoManager: toDoManager, task: task)
+                        if section.expanded == true {
+                            ForEach(section.tasks){task in
+                                TaskView(toDoManager: toDoManager, task: task, section: section)
                             }
-                            .onDelete{ indexSet in
-                                toDoManager.delete(at: indexSet, by: status)
+                            .onDelete { indexSet in
+                                toDoManager.delete(at: indexSet, in: section)
                             }
                         }
                     } header: {
-                        HStack {
-                            Text(status.name)
-                            Button {
-                                withAnimation(.spring) {
-                                    toDoManager.toggleExpanded(status)
-                                }
-                            } label: {
-                                Image(systemName:  "chevron.down")
-                                    .font(.caption)
-                                    .rotationEffect(toDoManager.expanded[status]==true ? .degrees(0) : .degrees(-90))
-                            }
-
-                        }
+                        sectionHeader(section)
                     }
-
                 }
             }
             .navigationTitle("Tasks")
@@ -50,6 +37,22 @@ struct HomeView: View {
                 CreateView(toDoManager: toDoManager)
                     .presentationDetents([.medium, .large])
             }
+        }
+    }
+    
+    private func sectionHeader(_ section: TaskSection) -> some View {
+        HStack {
+            Text(section.id.name)
+            Button {
+                withAnimation(.spring) {
+                    toDoManager.toggleExpanded(section)
+                }
+            } label: {
+                Image(systemName:  "chevron.down")
+                    .font(.caption)
+                    .rotationEffect(section.expanded == true ? .degrees(0) : .degrees(-90))
+            }
+
         }
     }
     

@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUICore
 
-struct Task: Identifiable, Equatable{
+struct Task: Identifiable, Equatable, Hashable{
     let id: UUID = UUID()
     var title: String = ""
     var priority: PriorityType? = nil
@@ -17,5 +17,4 @@ struct Task: Identifiable, Equatable{
     var ddlExist: Bool{
         ddl == nil ? false : true
     }
-    
 }

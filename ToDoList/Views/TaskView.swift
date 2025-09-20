@@ -9,6 +9,7 @@ import SwiftUI
 struct TaskView: View {
     @StateObject var toDoManager: ToDoManager
     let task: Task
+    let section: TaskSection
     @State var showFullLabel = false
     @State private var navigateToDetail = false
     
@@ -16,7 +17,7 @@ struct TaskView: View {
         HStack {
             Button {
                 withAnimation(.spring) {
-                    toDoManager.switchStatus(task)
+                    toDoManager.switchStatus(task, in: section)
                 }
             } label: {
                 Image(systemName: task.status.imgName)

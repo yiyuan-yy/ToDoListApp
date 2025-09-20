@@ -28,6 +28,17 @@ enum StatusType: CaseIterable, Identifiable {
         case .done:  return "checkmark.circle.fill"
         }
     }
+    
+    var nextStatus: StatusType {
+        switch self {
+        case .todo:
+            return .doing
+        case .doing:
+            return .done
+        case .done:
+            return .todo
+        }
+    }
 }
 
 

@@ -14,13 +14,12 @@ struct ButtonView: View {
     var body: some View {
         Button (action: action) {
             Text(text)
-                .fontWeight(.semibold)
-                .foregroundStyle(.white)
                 .frame(maxWidth: .infinity)
-                .padding(.vertical)
         }
-        .background(.darkGreenC)
-        .clipShape(RoundedRectangle(cornerRadius: 8))
+        .buttonStyle(.bordered)
+        .tint(.darkGreenC)
         .padding(.top,10)
     }
+    
+    
 }
