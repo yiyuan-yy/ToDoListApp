@@ -69,6 +69,12 @@ class ToDoManager: ObservableObject{
     }
     
     //MARK: - Drag and Move
+    func moveTaskInSection(from source: IndexSet, to destination: Int, section: TaskSection) {
+        guard let sectionIndex = self.sectionIndex(of: section) else {return}
+        tasksBySection[sectionIndex].tasks.move(fromOffsets: source, toOffset: destination)
+    }
+
+    
     // move tasks to change its order in the certain section
 //    func moveTask(in status: StatusType, from source: IndexSet, to destination: Int){
 //        let sectionIndices: [Int] = tasks.enumerated().filter{ $0.element.status == status }.map{$0.offset}

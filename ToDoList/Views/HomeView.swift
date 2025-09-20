@@ -23,6 +23,9 @@ struct HomeView: View {
                             .onDelete { indexSet in
                                 toDoManager.delete(at: indexSet, in: section)
                             }
+                            .onMove{ indexSet, destination in
+                                toDoManager.moveTaskInSection(from: indexSet, to: destination, section: section)
+                            }
                         }
                     } header: {
                         sectionHeader(section)
