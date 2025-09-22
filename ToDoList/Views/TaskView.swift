@@ -7,17 +7,18 @@
 import SwiftUI
 
 struct TaskView: View {
-    @StateObject var toDoManager: ToDoManager
+    @StateObject var todoViewModel: ToDoManager
+    @Binding var taskToEdit: Task?
+    @State var showFullLabel = false
+    
     let task: Task
     let section: TaskSection
-    @State var showFullLabel = false
-    @State private var navigateToDetail = false
     
     var body: some View {
         HStack {
             Button {
                 withAnimation(.spring) {
-                    toDoManager.switchStatus(task, in: section)
+                    todoViewModel.switchTaskStatus(task, in: section)
                 }
             } label: {
                 Image(systemName: task.status.imgName)
@@ -29,7 +30,7 @@ struct TaskView: View {
         
             
             Button {
-                navigateToDetail = true
+                taskToEdit = task
             } label: {
                 HStack {
                     Text(task.title.capitalized)
@@ -43,9 +44,7 @@ struct TaskView: View {
                 .foregroundStyle(.gray)
            
         }
-        .navigationDestination(isPresented: $navigateToDetail) {
-            CreateView(toDoManager: toDoManager, taskToEdit: task)
-        }
+
     }
     
     private var priorityLabel: some View{

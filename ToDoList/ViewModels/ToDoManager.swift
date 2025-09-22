@@ -21,7 +21,7 @@ class ToDoManager: ObservableObject{
     }
 
     // MARK: - Manage status of a task
-    func switchStatus(_ task: Task, in section: TaskSection){
+    func switchTaskStatus(_ task: Task, in section: TaskSection){
         let newStatus = task.status.nextStatus
         var updatedTask = task
         updatedTask.status = newStatus
@@ -69,19 +69,10 @@ class ToDoManager: ObservableObject{
     }
     
     //MARK: - Drag and Move
-    func moveTaskInSection(from source: IndexSet, to destination: Int, section: TaskSection) {
+    func moveTaskInSection(from source: IndexSet, to destination: Int, in section: TaskSection) {
         guard let sectionIndex = self.sectionIndex(of: section) else {return}
         tasksBySection[sectionIndex].tasks.move(fromOffsets: source, toOffset: destination)
     }
-
-    
-    // move tasks to change its order in the certain section
-//    func moveTask(in status: StatusType, from source: IndexSet, to destination: Int){
-//        let sectionIndices: [Int] = tasks.enumerated().filter{ $0.element.status == status }.map{$0.offset}
-//        var sectionItems = sectionIndices.map{ tasks[$0] }
-//        sectionItems.move(fromOffsets: source, toOffset: destination)
-//        
-//    }
     
 }
 
@@ -90,11 +81,11 @@ extension ToDoManager{
     // MARK: - data example
     static let example: [TaskSection] = [
         TaskSection(id: .todo, tasks: [
-            Task(title: "Buy milk", status: .todo),
+            Task(title: "Buy milk", priority: .normal, status: .todo),
             Task(title: "Call Bob", status: .todo)
         ]),
         TaskSection(id: .doing, tasks: [
-            Task(title: "Write report", status: .doing)
+            Task(title: "Write report", priority: .urgent, status: .doing)
         ]),
         TaskSection(id: .done, tasks: [
             Task(title: "Pay bill", status: .done)
