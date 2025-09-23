@@ -24,7 +24,7 @@ enum StatusType: CaseIterable, Identifiable {
     var imgName: String {
         switch self {
         case .todo:  return "circle"
-        case .doing: return "minus.circle.fill"
+        case .doing: return "circle.circle.fill"
         case .done:  return "checkmark.circle.fill"
         }
     }

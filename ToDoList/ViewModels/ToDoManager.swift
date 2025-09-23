@@ -13,10 +13,17 @@ class ToDoManager: ObservableObject{
     @Published var alertMessage: String = ""
     @Published var showCreateSheet = false
 
+    // MARK: - Manage section behaviors
     // switch tasks section expanded or not
     func toggleExpanded(_ target: TaskSection){
-        if let index = tasksBySection.firstIndex(of: target){
+        if let index = sectionIndex(of: target){
             tasksBySection[index].expanded.toggle()
+        }
+    }
+    
+    func toggleEditingField(in section: TaskSection){
+        if let index = sectionIndex(of: section){
+            tasksBySection[index].showEditingField.toggle()
         }
     }
 
@@ -50,6 +57,19 @@ class ToDoManager: ObservableObject{
                 showCreateSheet = false
             }
         }
+    }
+    
+    func createToDoInSection(_ newTask: Task, in section: TaskSection) -> Bool {
+        var newTask = newTask
+        newTask.status = section.id
+        if validate(newTask){
+            if let index = sectionIndex(of: section){
+                tasksBySection[index].tasks.append(newTask)
+                tasksBySection[index].showEditingField = false
+                return true
+            }
+        }
+        return false
     }
     
     // MARK: - Upate
@@ -93,7 +113,6 @@ extension ToDoManager{
     ]
     
     static let empty: [TaskSection] = StatusType.allCases.map{ TaskSection(id: $0) }
-    
     
     // MARK: - helpers
     private func sectionIndex(of status: StatusType) -> Int?{

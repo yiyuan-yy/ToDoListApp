@@ -11,6 +11,7 @@ struct HomeView: View {
     @StateObject var todoViewModel = ToDoManager()
     @State private var taskToEdit: Task? = nil
     
+    
     var body: some View {
 
         NavigationStack {
@@ -27,21 +28,25 @@ struct HomeView: View {
                             .onDelete { indexSet in
                                 todoViewModel.delete(at: indexSet, in: section)
                             }
-                            
+                        }
+                        if section.showEditingField == true {
+                            CreateInSectionView(toDoManager: todoViewModel, section: section)
                         }
                     } header: {
                         sectionHeader(section)
+                    } footer: {
+                        createButtonInSection(in: section)
                     }
                 }
             }
             .navigationTitle("Tasks")
-            .toolbar{
-                createButton
-            }
-            .sheet(isPresented: $todoViewModel.showCreateSheet) {
-                CreateView(toDoManager: todoViewModel)
-                    .presentationDetents([.medium, .large])
-            }
+//            .toolbar{
+//                createButton
+//            }
+//            .sheet(isPresented: $todoViewModel.showCreateSheet) {
+//                CreateView(toDoManager: todoViewModel)
+//                    .presentationDetents([.medium, .large])
+//            }
             .navigationDestination(item: $taskToEdit) { taskToEdit in
                 CreateView(toDoManager: todoViewModel, taskToEdit: taskToEdit)
             }
@@ -65,12 +70,15 @@ struct HomeView: View {
 
         }
     }
-    
-    private var createButton: some View{
+
+    private func createButtonInSection(in section: TaskSection) -> some View{
         Button {
-            todoViewModel.showCreateSheet = true
+            withAnimation(.spring) {
+                todoViewModel.toggleEditingField(in: section)
+            }
         } label: {
-            Image(systemName: "plus")
+            Image(systemName: section.showEditingField ? "minus" : "plus")
+                .font(section.expanded ? .body : .footnote)
         }
     }
     

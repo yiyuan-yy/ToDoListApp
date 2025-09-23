@@ -14,6 +14,9 @@ struct TaskSection: Identifiable, Hashable{
     
     // control of whether the section is expanded
     var expanded: Bool = true
+    
+    // control of whether show the tempory editing field
+    var showEditingField: Bool = false
 }
 
 
