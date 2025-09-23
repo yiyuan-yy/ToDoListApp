@@ -96,7 +96,6 @@ class ToDoManager: ObservableObject{
     
 }
 
-
 extension ToDoManager{
     // MARK: - data example
     static let example: [TaskSection] = [

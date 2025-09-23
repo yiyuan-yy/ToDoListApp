@@ -17,7 +17,6 @@ struct ButtonView: View {
                 .frame(maxWidth: .infinity)
         }
         .buttonStyle(.borderedProminent)
-//        .tint(.darkGreenC)
         .padding(.top,10)
     }
     

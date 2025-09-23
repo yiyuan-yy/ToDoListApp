@@ -10,7 +10,7 @@ import SwiftUI
 struct HomeView: View {
     @StateObject var todoViewModel = ToDoManager()
     @State private var taskToEdit: Task? = nil
-    
+    @State private var showFullLabel: Bool = false
     
     var body: some View {
 
@@ -20,7 +20,12 @@ struct HomeView: View {
                     Section {
                         if section.expanded == true {
                             ForEach(section.tasks){task in
-                                TaskView(todoViewModel: todoViewModel, taskToEdit: $taskToEdit, task: task, section: section)
+                                TaskView(todoViewModel: todoViewModel,
+                                         taskToEdit: $taskToEdit,
+                                         showFullLabel: $showFullLabel,
+                                         task: task,
+                                         section: section
+                                )
                             }
                             .onMove{ indexSet, destination in
                                 todoViewModel.moveTaskInSection(from: indexSet, to: destination, in: section)
@@ -40,15 +45,9 @@ struct HomeView: View {
                 }
             }
             .navigationTitle("Tasks")
-//            .toolbar{
-//                createButton
-//            }
-//            .sheet(isPresented: $todoViewModel.showCreateSheet) {
-//                CreateView(toDoManager: todoViewModel)
-//                    .presentationDetents([.medium, .large])
-//            }
-            .navigationDestination(item: $taskToEdit) { taskToEdit in
-                CreateView(toDoManager: todoViewModel, taskToEdit: taskToEdit)
+            .sheet(item: $taskToEdit) { taskToEdit in
+                DetailView(toDoManager: todoViewModel, taskToEdit: taskToEdit)
+                    .presentationDetents([.medium, .large])
             }
             
         }
@@ -67,7 +66,6 @@ struct HomeView: View {
                     .font(.caption)
                     .rotationEffect(section.expanded == true ? .degrees(0) : .degrees(-90))
             }
-
         }
     }
 
@@ -81,8 +79,6 @@ struct HomeView: View {
                 .font(section.expanded ? .body : .footnote)
         }
     }
-    
-    
     
 }
 

@@ -9,7 +9,7 @@ import SwiftUI
 struct TaskView: View {
     @StateObject var todoViewModel: ToDoManager
     @Binding var taskToEdit: Task?
-    @State var showFullLabel = false
+    @Binding var showFullLabel: Bool
     
     let task: Task
     let section: TaskSection
