@@ -32,6 +32,10 @@ class ToDoManager: ObservableObject{
         let newStatus = task.status.nextStatus
         var updatedTask = task
         updatedTask.status = newStatus
+        // delete ddl if completed task are set to TODO again
+//        if newStatus == .todo {
+//            updatedTask.ddl = nil
+//        }
         // Remove old task
         if !remove(task) || !add(updatedTask){
             return
@@ -108,11 +112,11 @@ extension ToDoManager{
     // MARK: - data example
     static let example: [TaskSection] = [
         TaskSection(id: .todo, tasks: [
-            Task(title: "Buy milk", priority: .normal, status: .todo),
+            Task(title: "Buy milk", priority: .normal, ddl: Date(), status: .todo),
             Task(title: "Call Bob", status: .todo)
         ]),
         TaskSection(id: .doing, tasks: [
-            Task(title: "Write report", priority: .urgent, status: .doing)
+            Task(title: "Write report", priority: .urgent, ddl: Date(), status: .doing)
         ]),
         TaskSection(id: .done, tasks: [
             Task(title: "Pay bill", status: .done)
