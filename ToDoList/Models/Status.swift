@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUICore
 
 // MARK: - Status Type
 enum StatusType: CaseIterable, Identifiable {
@@ -26,6 +27,17 @@ enum StatusType: CaseIterable, Identifiable {
         case .todo:  return "circle"
         case .doing: return "circle.circle.fill"
         case .done:  return "checkmark.circle.fill"
+        }
+    }
+    
+    var backColor: Color{
+        switch self {
+        case .todo:
+            return Color.gray.opacity(0.3)
+        case .doing:
+            return Color.blue.opacity(0.3)
+        case .done:
+            return Color.darkGreenC.opacity(0.3)
         }
     }
     

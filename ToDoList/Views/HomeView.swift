@@ -47,7 +47,7 @@ struct HomeView: View {
             .navigationTitle("Tasks")
             .sheet(item: $taskToEdit) { taskToEdit in
                 DetailView(toDoManager: todoViewModel, taskToEdit: taskToEdit)
-                    .presentationDetents([.medium, .large])
+//                    .presentationDetents([.large, .medium])
             }
             
         }

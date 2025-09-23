@@ -76,9 +76,17 @@ class ToDoManager: ObservableObject{
     func update(old: Task, new: Task) -> Bool {
         // remove old task
         if !validate(new) {return false}
-        if remove(old) && add(new){
+        if new.status != old.status{
+            if remove(old) && add(new){
+                return true
+            }
+        } else {
+            guard let sectionIndex = self.sectionIndex(of: old) else {return false}
+            guard let taskIndex = self.taskIndex(of: old) else {return false}
+            tasksBySection[sectionIndex].tasks[taskIndex] = new
             return true
         }
+        
         return false
     }
     

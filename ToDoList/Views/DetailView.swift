@@ -16,7 +16,6 @@ struct DetailView: View {
     @State private var showPriorityPicker = false
     @State private var temporyPriority: PriorityType = .normal
     
-    
     @State private var showDatePicker = false
     @State private var temporyDDL: Date = Date()
     
@@ -30,37 +29,105 @@ struct DetailView: View {
         
         self._showPriorityPicker = State(initialValue: (taskToEdit.priority != nil) ? true : false)
         self._temporyPriority = State(initialValue: taskToEdit.priority ?? .normal)
-        
     }
     
     var body: some View {
         Form{
-            // Title
-            TextField("Title", text: $draft.title)
-                .textFieldStyle(.plain)
-                .font(.title)
-                .padding(.top)
-            
-            HStack {
-                LabelButton(controller: $showPriorityPicker, title: "Priority") {
-                    draft.priority = nil
+            // Status Cover
+            Section {
+                EmptyView() // no content, only header
+            } header: {
+                Button {
+                    withAnimation(.spring){
+                        draft.status = draft.status.nextStatus
+                    }
+                } label: {
+                    HStack {
+                        Spacer()
+                        Text(draft.status.name)
+                            .bold()
+                        Spacer()
+                    }
+                    .foregroundStyle(.white)
+                    .padding(.vertical, 2)
+                    .frame(maxWidth: .infinity)
+                    .background(
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(draft.status.backColor)
+                    )
+                    .padding(.horizontal)
                 }
-                LabelButton(controller: $showDatePicker, title: "Due Date") {
-                    draft.ddl = nil
-                }
             }
-            
-            if showPriorityPicker{
-                priorityPicker
-            }
-            
-            if showDatePicker{
-                DatePicker("Due Date", selection: $temporyDDL, displayedComponents: .date)
-                    .datePickerStyle(.compact)
-            }
-            
 
-            submitButton
+            
+            // Title
+            Section {
+                TextField("Enter Title", text: $draft.title)
+                    .font(.title2.weight(.semibold))
+                    .autocorrectionDisabled()
+                    .textInputAutocapitalization(.never)
+            }
+            
+            // Priority & Date
+            Section(header: Label("Details", systemImage: "slider.horizontal.3")) {
+                HStack {
+                    LabelButton(controller: $showPriorityPicker, title: "Priority") {
+                        draft.priority = nil
+                    }
+                    LabelButton(controller: $showDatePicker, title: "Due Date") {
+                        draft.ddl = nil
+                    }
+                    Spacer()
+                }
+                
+                if showPriorityPicker {
+                    Picker("Priority", selection: $temporyPriority) {
+                        ForEach(PriorityType.allCases) { type in
+                            Text(type.name).tag(type)
+                        }
+                    }
+                    .pickerStyle(.menu)
+                }
+                
+                if showDatePicker{
+                    DatePicker("Due Date", selection: $temporyDDL, displayedComponents: .date)
+                        .datePickerStyle(.compact)
+                }
+            }
+            
+            // Description
+            Section(header: Label("Description", systemImage: "text.justify.left")) {
+                ZStack(alignment: .topLeading) {
+                    if draft.description.isEmpty {
+                        Text("Add notes...")
+                            .foregroundColor(.gray.opacity(0.6))
+                            .padding(.vertical, 8)
+                    }
+                    TextEditor(text: $draft.description)
+                        .frame(minHeight: 120)
+                        .autocorrectionDisabled()
+                        .textInputAutocapitalization(.never)
+                }
+            }
+            
+            // Submit
+            Section {
+                EmptyView()
+            } header: {
+                Button{
+                    setDraft()
+                    if (toDoManager.update(old: taskToEdit, new: draft)){
+                        dismiss()
+                    }
+                } label: {
+                    Text("Save Task")
+                        .font(.headline)
+                        .frame(maxWidth: .infinity)
+                }
+                .buttonStyle(.borderedProminent)
+                .tint(.blue)
+            }
+            
         }
         .alert("", isPresented: $toDoManager.showAlert, actions: {
             Button {
@@ -71,20 +138,9 @@ struct DetailView: View {
         }, message: {
             Text(toDoManager.alertMessage)
         })
-        
-        
+
     }
-    
-    private var priorityPicker: some View{
-        Picker("Priority", selection: $temporyPriority){
-            ForEach(PriorityType.allCases){type in
-                Text(type.name)
-                    .tag(type)
-            }
-        }
-        
-    }
-    
+
     private func setDraft(){
         if showDatePicker {
             draft.ddl = temporyDDL
@@ -98,18 +154,6 @@ struct DetailView: View {
             draft.priority = nil
         }
         
-    }
-    
-    private var submitButton: some View{
-        VStack{
-            ButtonView(action: {
-                setDraft()
-                if (toDoManager.update(old: taskToEdit, new: draft)){
-                    dismiss()
-                }
-            }, text: "Update")
-            
-        }
     }
     
 }

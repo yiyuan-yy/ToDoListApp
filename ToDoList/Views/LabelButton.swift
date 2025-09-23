@@ -25,7 +25,7 @@ struct LabelButton: View {
         }
         .buttonStyle(.bordered)
         .font(.caption)
-        .tint(controller ? .red : .blue)
+        .tint(controller ? .pink : .blue)
     }
 }
 

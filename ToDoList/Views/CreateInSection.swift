@@ -15,6 +15,8 @@ struct CreateInSectionView: View {
     var body: some View {
         HStack(alignment: .top) {
             TextField("Title", text: $draft.title)
+                .autocorrectionDisabled()
+                .textInputAutocapitalization(.never)
                 .textFieldStyle(.roundedBorder)
             Spacer()
             Button {
