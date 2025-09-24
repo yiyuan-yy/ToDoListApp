@@ -8,34 +8,76 @@
 import Foundation
 
 class ToDoManager: ObservableObject{
-    @Published var tasksBySection: [TaskSection] = ToDoManager.example
+    
+    // MARK: - Boards
+    @Published var boards: [Board] = [
+        Board(name: "Personal",sections: Board.example),
+        Board(name: "Work", sections: Board.exampleWork),
+        Board(name: "Study", sections: Board.exampleStudy),
+    ]
+    
+    @Published var currentBoardIndex: Int = 0
+    
+    func switchToBoard(to board: Board){
+        if let boardIndex = boards.firstIndex(of: board){
+            currentBoardIndex = boardIndex
+        }
+    }
+    
+    func addNewBoard(name: String){
+        boards.append(Board(name: name))
+        currentBoardIndex = boards.count - 1
+    }
+    
+    // Computed variables of boards
+    var tasksBySection: [TaskSection] {
+        if currentBoardIndex < boards.count {
+            return boards[currentBoardIndex].sections
+        } else {
+            return []
+        }
+    }
+    
+    // MARK: - Tasks
     @Published var showAlert = false
     @Published var alertMessage: String = ""
     @Published var showCreateSheet = false
+    
+    @Published var taskToEdit: Task? = nil
+    @Published var showFullLabel = false
+    
+    private func remove(_ task: Task) -> Bool {
+        guard let oldSectionIndex = sectionIndex(of: task.status) else {return false}
+        guard let taskIndex = taskIndex(of: task) else {return false}
+        boards[currentBoardIndex].sections[oldSectionIndex].tasks.remove(at: taskIndex)
+        return true
+    }
+    
+    private func add(_ newTask: Task) -> Bool {
+        guard let newSectionIndex = sectionIndex(of: newTask) else {return false}
+        boards[currentBoardIndex].sections[newSectionIndex].tasks.append(newTask)
+        return true
+    }
 
     // MARK: - Manage section behaviors
     // switch tasks section expanded or not
     func toggleExpanded(_ target: TaskSection){
         if let index = sectionIndex(of: target){
-            tasksBySection[index].expanded.toggle()
+            boards[currentBoardIndex].sections[index].expanded.toggle()
         }
     }
     
     func toggleEditingField(in section: TaskSection){
         if let index = sectionIndex(of: section){
-            tasksBySection[index].showEditingField.toggle()
+            boards[currentBoardIndex].sections[index].showEditingField.toggle()
         }
     }
-
+    
     // MARK: - Manage status of a task
     func switchTaskStatus(_ task: Task, in section: TaskSection){
         let newStatus = task.status.nextStatus
         var updatedTask = task
         updatedTask.status = newStatus
-        // delete ddl if completed task are set to TODO again
-//        if newStatus == .todo {
-//            updatedTask.ddl = nil
-//        }
         // Remove old task
         if !remove(task) || !add(updatedTask){
             return
@@ -54,22 +96,13 @@ class ToDoManager: ObservableObject{
         }
     }
     
-    func createToDo(_ newTask: Task){
-        if validate(newTask){
-            if let index = sectionIndex(of: newTask.status){
-                tasksBySection[index].tasks.append(newTask)
-                showCreateSheet = false
-            }
-        }
-    }
-    
     func createToDoInSection(_ newTask: Task, in section: TaskSection) -> Bool {
         var newTask = newTask
         newTask.status = section.id
         if validate(newTask){
             if let index = sectionIndex(of: section){
-                tasksBySection[index].tasks.append(newTask)
-                tasksBySection[index].showEditingField = false
+                boards[currentBoardIndex].sections[index].tasks.append(newTask)
+                boards[currentBoardIndex].sections[index].showEditingField = false
                 return true
             }
         }
@@ -87,7 +120,7 @@ class ToDoManager: ObservableObject{
         } else {
             guard let sectionIndex = self.sectionIndex(of: old) else {return false}
             guard let taskIndex = self.taskIndex(of: old) else {return false}
-            tasksBySection[sectionIndex].tasks[taskIndex] = new
+            boards[currentBoardIndex].sections[sectionIndex].tasks[taskIndex] = new
             return true
         }
         
@@ -97,34 +130,18 @@ class ToDoManager: ObservableObject{
     // MARK: - Delete
     func delete(at indexSet: IndexSet, in section: TaskSection){
         guard let indexS = sectionIndex(of: section) else {return}
-        tasksBySection[indexS].tasks.remove(atOffsets: indexSet)
+        boards[currentBoardIndex].sections[indexS].tasks.remove(atOffsets: indexSet)
     }
     
     //MARK: - Drag and Move
     func moveTaskInSection(from source: IndexSet, to destination: Int, in section: TaskSection) {
         guard let sectionIndex = self.sectionIndex(of: section) else {return}
-        tasksBySection[sectionIndex].tasks.move(fromOffsets: source, toOffset: destination)
+        boards[currentBoardIndex].sections[sectionIndex].tasks.move(fromOffsets: source, toOffset: destination)
     }
     
 }
 
 extension ToDoManager{
-    // MARK: - data example
-    static let example: [TaskSection] = [
-        TaskSection(id: .todo, tasks: [
-            Task(title: "Buy milk", priority: .normal, ddl: Date(), status: .todo),
-            Task(title: "Call Bob", status: .todo)
-        ]),
-        TaskSection(id: .doing, tasks: [
-            Task(title: "Write report", priority: .urgent, ddl: Date(), status: .doing)
-        ]),
-        TaskSection(id: .done, tasks: [
-            Task(title: "Pay bill", status: .done)
-        ])
-    ]
-    
-    static let empty: [TaskSection] = StatusType.allCases.map{ TaskSection(id: $0) }
-    
     // MARK: - helpers
     private func sectionIndex(of status: StatusType) -> Int?{
         guard let index = tasksBySection.firstIndex(where: {$0.id == status}) else {return nil}
@@ -145,18 +162,5 @@ extension ToDoManager{
         guard let sectionIndex = self.sectionIndex(of: task) else {return nil}
         guard let taskIndex = tasksBySection[sectionIndex].tasks.firstIndex(of: task) else {return nil}
         return taskIndex
-    }
-    
-    private func remove(_ task: Task) -> Bool {
-        guard let oldSectionIndex = sectionIndex(of: task.status) else {return false}
-        guard let taskIndex = taskIndex(of: task) else {return false}
-        tasksBySection[oldSectionIndex].tasks.remove(at: taskIndex)
-        return true
-    }
-    
-    private func add(_ newTask: Task) -> Bool {
-        guard let newSectionIndex = sectionIndex(of: newTask) else {return false}
-        tasksBySection[newSectionIndex].tasks.append(newTask)
-        return true
     }
 }

@@ -8,34 +8,28 @@
 import SwiftUI
 
 struct HomeView: View {
-    @StateObject var todoViewModel = ToDoManager()
-    @State private var taskToEdit: Task? = nil
-    @State private var showFullLabel: Bool = false
+    @StateObject var viewModel = ToDoManager()
     
     var body: some View {
-
         NavigationStack {
             VStack{
-                List(todoViewModel.tasksBySection){ section in
+                List(viewModel.tasksBySection){ section in
                     Section {
                         if section.expanded == true {
                             ForEach(section.tasks){task in
-                                TaskView(todoViewModel: todoViewModel,
-                                         taskToEdit: $taskToEdit,
-                                         showFullLabel: $showFullLabel,
-                                         task: task,
+                                TaskView(task: task,
                                          section: section
                                 )
                             }
                             .onMove{ indexSet, destination in
-                                todoViewModel.moveTaskInSection(from: indexSet, to: destination, in: section)
+                                viewModel.moveTaskInSection(from: indexSet, to: destination, in: section)
                             }
                             .onDelete { indexSet in
-                                todoViewModel.delete(at: indexSet, in: section)
+                                viewModel.delete(at: indexSet, in: section)
                             }
                         }
                         if section.showEditingField == true {
-                            CreateInSectionView(toDoManager: todoViewModel, section: section)
+                            CreateInSectionView(section: section)
                         }
                     } header: {
                         sectionHeader(section)
@@ -45,12 +39,19 @@ struct HomeView: View {
                 }
             }
             .navigationTitle("Tasks")
-            .sheet(item: $taskToEdit) { taskToEdit in
-                DetailView(toDoManager: todoViewModel, taskToEdit: taskToEdit)
+            .toolbar{
+                ToolbarItem {
+                    
+                }
             }
-            
+            .sheet(item: $viewModel.taskToEdit) { task in
+                DetailView(task)
+            }
+            .environmentObject(viewModel)
         }
+       
     }
+       
     
     
     private func sectionHeader(_ section: TaskSection) -> some View {
@@ -58,7 +59,7 @@ struct HomeView: View {
             Text(section.id.name)
             Button {
                 withAnimation(.spring) {
-                    todoViewModel.toggleExpanded(section)
+                    viewModel.toggleExpanded(section)
                 }
             } label: {
                 Image(systemName:  "chevron.down")
@@ -71,7 +72,7 @@ struct HomeView: View {
     private func createButtonInSection(in section: TaskSection) -> some View{
         Button {
             withAnimation(.spring) {
-                todoViewModel.toggleEditingField(in: section)
+                viewModel.toggleEditingField(in: section)
             }
         } label: {
             Image(systemName: section.showEditingField ? "minus" : "plus")

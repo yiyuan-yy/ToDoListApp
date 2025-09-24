@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CreateInSectionView: View {
-    @ObservedObject var toDoManager: ToDoManager
+    @EnvironmentObject var viewModel: ToDoManager
     @State private var draft: Task = Task()
     let section: TaskSection
     
@@ -20,7 +20,7 @@ struct CreateInSectionView: View {
                 .textFieldStyle(.roundedBorder)
             Spacer()
             Button {
-                if toDoManager.createToDoInSection(draft, in: section){
+                if viewModel.createToDoInSection(draft, in: section){
                     draft = Task() //reset draft
                 }
             } label: {
@@ -29,18 +29,19 @@ struct CreateInSectionView: View {
             .buttonStyle(.borderedProminent)
         }
         .padding(.vertical,5)
-        .alert("", isPresented: $toDoManager.showAlert, actions: {
+        .alert("", isPresented: $viewModel.showAlert, actions: {
             Button {
-                toDoManager.showAlert = false
+                viewModel.showAlert = false
             } label: {
                 Text("OK")
             }
         }, message: {
-            Text(toDoManager.alertMessage)
+            Text(viewModel.alertMessage)
         })
     }
 }
 
 #Preview {
-    CreateInSectionView(toDoManager: ToDoManager(),section: TaskSection(id: .todo))
+    CreateInSectionView(section: TaskSection(id: .todo))
+        .environmentObject(ToDoManager())
 }

@@ -7,10 +7,7 @@
 import SwiftUI
 
 struct TaskView: View {
-    @StateObject var todoViewModel: ToDoManager
-    @Binding var taskToEdit: Task?
-    @Binding var showFullLabel: Bool
-    
+    @EnvironmentObject var viewModel: ToDoManager
     let task: Task
     let section: TaskSection
     
@@ -18,7 +15,7 @@ struct TaskView: View {
         HStack {
             Button {
                 withAnimation(.spring) {
-                    todoViewModel.switchTaskStatus(task, in: section)
+                    viewModel.switchTaskStatus(task, in: section)
                 }
             } label: {
                 Image(systemName: task.status.imgName)
@@ -30,7 +27,7 @@ struct TaskView: View {
         
             
             Button {
-                taskToEdit = task
+                viewModel.taskToEdit = task
             } label: {
                 HStack {
                     Text(task.title.capitalized)
@@ -69,22 +66,26 @@ struct TaskView: View {
     
     private var priorityLabel: some View{
         Button {
-            showFullLabel.toggle()
+            viewModel.showFullLabel.toggle()
         } label: {
             if let priority = task.priority {
-                Text(showFullLabel ? priority.name : "")
+                Text( viewModel.showFullLabel ? priority.name : "")
                     .font(.caption)
                     .foregroundStyle(priority.textColor)
-                    .frame(width: showFullLabel ? 60 : 30, height: showFullLabel ? 25 : 10, alignment: .center)
+                    .frame(width:  viewModel.showFullLabel ? 60 : 30, height:  viewModel.showFullLabel ? 25 : 10, alignment: .center)
                     .background(priority.backgroundColor)
                     .clipShape(RoundedRectangle(cornerRadius: 20))
             }
         }
         .buttonStyle(.borderless)
-        .animation(.spring, value: showFullLabel)
 
     }
     
     
+}
+
+#Preview {
+    TaskView(task: Task(title: "Preview Example"), section: TaskSection(id: .doing))
+        .environmentObject(ToDoManager())
 }
 

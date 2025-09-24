@@ -8,10 +8,9 @@
 import SwiftUI
 
 struct DetailView: View {
-    @ObservedObject var toDoManager: ToDoManager
+    @EnvironmentObject var viewModel: ToDoManager
+    
     @State private var draft: Task = Task()
-    @Environment(\.dismiss) var dismiss
-    var taskToEdit: Task
     
     @State private var showPriorityPicker = false
     @State private var temporyPriority: PriorityType = .normal
@@ -19,16 +18,13 @@ struct DetailView: View {
     @State private var showDatePicker = false
     @State private var temporyDDL: Date = Date()
     
-    init(toDoManager: ToDoManager, taskToEdit: Task) {
-        self.toDoManager = toDoManager
-        self.taskToEdit = taskToEdit
-        self._draft = State(initialValue: taskToEdit)
+    init(_ task: Task) {
+        self._draft = State(initialValue: task)
+        self._showDatePicker = State(initialValue: (task.ddl != nil) ? true : false)
+        self._temporyDDL = State(initialValue: task.ddl ?? Date())
         
-        self._showDatePicker = State(initialValue: (taskToEdit.ddl != nil) ? true : false)
-        self._temporyDDL = State(initialValue: taskToEdit.ddl ?? Date())
-        
-        self._showPriorityPicker = State(initialValue: (taskToEdit.priority != nil) ? true : false)
-        self._temporyPriority = State(initialValue: taskToEdit.priority ?? .normal)
+        self._showPriorityPicker = State(initialValue: (task.priority != nil) ? true : false)
+        self._temporyPriority = State(initialValue: task.priority ?? .normal)
     }
     
     var body: some View {
@@ -115,9 +111,10 @@ struct DetailView: View {
                 EmptyView()
             } header: {
                 Button{
+                    guard let taskToEdit = viewModel.taskToEdit else {return}
                     setDraft()
-                    if (toDoManager.update(old: taskToEdit, new: draft)){
-                        dismiss()
+                    if (viewModel.update(old: taskToEdit, new: draft)){
+                        viewModel.taskToEdit = nil
                     }
                 } label: {
                     Text("Save Task")
@@ -129,14 +126,14 @@ struct DetailView: View {
             }
             
         }
-        .alert("", isPresented: $toDoManager.showAlert, actions: {
+        .alert("", isPresented: $viewModel.showAlert, actions: {
             Button {
-                toDoManager.showAlert = false
+                viewModel.showAlert = false
             } label: {
                 Text("OK")
             }
         }, message: {
-            Text(toDoManager.alertMessage)
+            Text(viewModel.alertMessage)
         })
 
     }
@@ -159,5 +156,6 @@ struct DetailView: View {
 }
 
 #Preview {
-    DetailView(toDoManager: ToDoManager(), taskToEdit: Task())
+    DetailView(Task())
+        .environmentObject(ToDoManager())
 }
