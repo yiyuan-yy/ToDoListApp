@@ -32,20 +32,7 @@ struct TaskDetailView: View {
             statusView
             titleField
             detailsField
-            // Description
-            Section(header: Label("Description", systemImage: "text.justify.left")) {
-                ZStack(alignment: .topLeading) {
-                    if draft.description.isEmpty {
-                        Text("Add notes...")
-                            .foregroundColor(.gray.opacity(0.6))
-                            .padding(.vertical, 8)
-                    }
-                    TextEditor(text: $draft.description)
-                        .frame(minHeight: 120)
-                        .autocorrectionDisabled()
-                        .textInputAutocapitalization(.never)
-                }
-            }
+            descriptionField
             submitButton
         }
         .alert("", isPresented: $viewModel.showAlert, actions: {
@@ -77,6 +64,23 @@ struct TaskDetailView: View {
             }
             .buttonStyle(.borderedProminent)
             .tint(.blue)
+        }
+    }
+    
+    private var descriptionField: some View{
+        // Description
+        Section(header: Label("Description", systemImage: "text.justify.left")) {
+            ZStack(alignment: .topLeading) {
+                if draft.description.isEmpty {
+                    Text("Add notes...")
+                        .foregroundColor(.gray.opacity(0.6))
+                        .padding(.vertical, 8)
+                }
+                TextEditor(text: $draft.description)
+                    .frame(minHeight: 120)
+                    .autocorrectionDisabled()
+                    .textInputAutocapitalization(.never)
+            }
         }
     }
     

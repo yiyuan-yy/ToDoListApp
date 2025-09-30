@@ -9,76 +9,47 @@ import SwiftUI
 
 struct HomeView: View {
     @StateObject var viewModel = ToDoManager()
+    @Environment(\.horizontalSizeClass) var horizontalSizeClass
+    @Environment(\.verticalSizeClass) var verticalSizeClass
     
     var body: some View {
+        if UIDevice.isIPhone{
+            iphoneHomeView
+        } else {
+            ipadHomeView
+        }
+    }
+    
+    private var iphoneHomeView: some View{
         NavigationStack {
-            VStack{
-                List(viewModel.tasksBySection){ section in
-                    Section {
-                        if section.expanded == true {
-                            ForEach(section.tasks){task in
-                                TaskView(task: task,
-                                         section: section
-                                )
-                            }
-                            .onMove{ indexSet, destination in
-                                viewModel.moveTaskInSection(from: indexSet, to: destination, in: section)
-                            }
-                            .onDelete { indexSet in
-                                viewModel.delete(at: indexSet, in: section)
-                            }
-                        }
-                        if section.showEditingField == true {
-                            CreateInSectionView(section: section)
-                        }
-                    } header: {
-                        sectionHeader(section)
-                    } footer: {
-                        createButtonInSection(in: section)
+            BoardDetailView()
+                .toolbar {
+                    ToolbarItem{
+                        BoardListView()
                     }
                 }
-            }
-            .navigationTitle("Tasks")
-            .toolbar{
-                ToolbarItem {
-                    
-                }
-            }
-            .sheet(item: $viewModel.taskToEdit) { task in
-                DetailView(task)
-            }
-            .environmentObject(viewModel)
+                .environmentObject(viewModel)
         }
-       
+        
     }
-       
+    
+    private var ipadHomeView: some View{
+        NavigationSplitView {
+            BoardListView()
+                .navigationTitle("Boards")
+                .navigationSplitViewColumnWidth(
+                            min: 150, ideal: 250, max: 400)
+                .environmentObject(viewModel)
+        } detail: {
+            BoardDetailView()
+                .environmentObject(viewModel)
+        }
+        .navigationSplitViewStyle(.balanced)
+        
+        
+    }
     
     
-    private func sectionHeader(_ section: TaskSection) -> some View {
-        HStack {
-            Text(section.id.name)
-            Button {
-                withAnimation(.spring) {
-                    viewModel.toggleExpanded(section)
-                }
-            } label: {
-                Image(systemName:  "chevron.down")
-                    .font(.caption)
-                    .rotationEffect(section.expanded == true ? .degrees(0) : .degrees(-90))
-            }
-        }
-    }
-
-    private func createButtonInSection(in section: TaskSection) -> some View{
-        Button {
-            withAnimation(.spring) {
-                viewModel.toggleEditingField(in: section)
-            }
-        } label: {
-            Image(systemName: section.showEditingField ? "minus" : "plus")
-                .font(section.expanded ? .body : .footnote)
-        }
-    }
     
 }
 

@@ -30,13 +30,22 @@ class ToDoManager: ObservableObject{
     }
     
     // Computed variables of boards
-    var tasksBySection: [TaskSection] {
+    var currentSections: [TaskSection] {
         if currentBoardIndex < boards.count {
             return boards[currentBoardIndex].sections
         } else {
             return []
         }
     }
+    
+    var currentBoardName: String{
+        if currentBoardIndex < boards.count {
+            return boards[currentBoardIndex].name
+        } else {
+            return "Tasks"
+        }
+    }
+    
     
     // MARK: - Tasks
     @Published var showAlert = false
@@ -144,23 +153,23 @@ class ToDoManager: ObservableObject{
 extension ToDoManager{
     // MARK: - helpers
     private func sectionIndex(of status: StatusType) -> Int?{
-        guard let index = tasksBySection.firstIndex(where: {$0.id == status}) else {return nil}
+        guard let index = currentSections.firstIndex(where: {$0.id == status}) else {return nil}
         return index
     }
     
     private func sectionIndex(of task: Task) -> Int?{
-        guard let index = tasksBySection.firstIndex(where: {$0.id == task.status}) else {return nil}
+        guard let index = currentSections.firstIndex(where: {$0.id == task.status}) else {return nil}
         return index
     }
     
     private func sectionIndex(of section: TaskSection) -> Int?{
-        guard let index = tasksBySection.firstIndex(of: section) else {return nil}
+        guard let index = currentSections.firstIndex(of: section) else {return nil}
         return index
     }
     
     private func taskIndex(of task: Task) -> Int?{
         guard let sectionIndex = self.sectionIndex(of: task) else {return nil}
-        guard let taskIndex = tasksBySection[sectionIndex].tasks.firstIndex(of: task) else {return nil}
+        guard let taskIndex = currentSections[sectionIndex].tasks.firstIndex(of: task) else {return nil}
         return taskIndex
     }
 }

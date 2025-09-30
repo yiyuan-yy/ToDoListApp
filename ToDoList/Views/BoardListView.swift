@@ -13,27 +13,41 @@ struct BoardListView: View {
     @State private var showInputField = false
     
     var body: some View {
-        Menu {
-            ForEach(viewModel.boards){ board in
-                Button(board.name) {
-                    withAnimation(.spring) {
-                        viewModel.switchToBoard(to: board)
-                    }
+        if UIDevice.isIPhone {
+            Menu {
+                boardsList
+                createBoardButton
+            } label: {
+                Image(systemName: "book")
+            }
+        } else {
+            List {
+                boardsList
+                createBoardButton
+            }
+        }
+
+    }
+    
+    private var boardsList: some View{
+        ForEach(viewModel.boards){ board in
+            Button(board.name) {
+                withAnimation(.spring) {
+                    viewModel.switchToBoard(to: board)
                 }
             }
-            
-           
-            // Add new board button
-            Button {
-               
-            } label: {
-                Image(systemName: "plus")
-            }
-
-        } label: {
-            Image(systemName: "book")
         }
     }
+    
+    private var createBoardButton: some View{
+        // Add new board button
+        Button {
+           
+        } label: {
+            Image(systemName: "plus")
+        }
+    }
+    
 }
 
 #Preview {
