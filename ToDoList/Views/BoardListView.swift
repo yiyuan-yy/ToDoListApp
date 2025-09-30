@@ -7,19 +7,25 @@
 
 import SwiftUI
 
-struct BoardList: View {
+struct BoardListView: View {
     @EnvironmentObject var viewModel: ToDoManager
+    @State private var draft: String = ""
+    @State private var showInputField = false
     
     var body: some View {
         Menu {
             ForEach(viewModel.boards){ board in
                 Button(board.name) {
-                    viewModel.switchToBoard(to: board)
+                    withAnimation(.spring) {
+                        viewModel.switchToBoard(to: board)
+                    }
                 }
             }
+            
+           
             // Add new board button
             Button {
-                
+               
             } label: {
                 Image(systemName: "plus")
             }
@@ -31,6 +37,6 @@ struct BoardList: View {
 }
 
 #Preview {
-    BoardList()
+    BoardListView()
         .environmentObject(ToDoManager())
 }
