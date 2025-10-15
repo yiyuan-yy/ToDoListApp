@@ -148,6 +148,16 @@ class ToDoManager: ObservableObject{
         boards[currentBoardIndex].sections[sectionIndex].tasks.move(fromOffsets: source, toOffset: destination)
     }
     
+//    func moveTaskToSection(_ id: String, to section: TaskSection){
+//        guard let task = findTask(by: id) else {return}
+//        var updatedTask = task
+//        updatedTask.status = section.id
+//        // Remove old task
+//        if !remove(task) || !add(updatedTask){
+//            return
+//        }
+//    }
+    
 }
 
 extension ToDoManager{
@@ -171,5 +181,10 @@ extension ToDoManager{
         guard let sectionIndex = self.sectionIndex(of: task) else {return nil}
         guard let taskIndex = currentSections[sectionIndex].tasks.firstIndex(of: task) else {return nil}
         return taskIndex
+    }
+    
+    private func findTask(by id: String)->Task?{
+        let allTasks = currentSections.flatMap {$0.tasks}
+        return allTasks.first {$0.id.uuidString == id}
     }
 }

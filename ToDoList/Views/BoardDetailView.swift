@@ -10,32 +10,15 @@ import SwiftUIReorderableForEach
 
 struct BoardDetailView: View {
     @EnvironmentObject var viewModel: ToDoManager
+    @State private var isDropTargeted = false
     
     var body: some View {
         List{
-            ForEach(viewModel.currentSections){ section in
-                Section {
-                    if section.expanded == true {
-                        ForEach(section.tasks){task in
-                            TaskView(task: task, section: section)
-                        }
-                        .onMove{ indexSet, destination in
-                            viewModel.moveTaskInSection(from: indexSet, to: destination, in: section)
-                        }
-                        .onDelete { indexSet in
-                            viewModel.delete(at: indexSet, in: section)
-                        }
-                    }
-                    if section.showEditingField == true {
-                        CreateInSectionView(section: section)
-                    }
-                } header: {
-                    sectionHeader(section)
-                } footer: {
-                    createButtonInSection(in: section)
-                }
-            }
+            sectionView(viewModel.currentSections[0])
+            sectionView(viewModel.currentSections[1])
+            sectionView(viewModel.currentSections[2])
         }
+        .listStyle(.insetGrouped)
         .sheet(item: $viewModel.taskToEdit) { task in
             TaskDetailView(task)
                 .environmentObject(viewModel)
@@ -43,6 +26,38 @@ struct BoardDetailView: View {
         .navigationTitle(viewModel.currentBoardName)
         .navigationBarTitleDisplayMode(.large)
         .environmentObject(viewModel)
+    }
+    
+    private func sectionView(_ section: TaskSection) -> some View{
+        Section {
+            if section.expanded == true {
+                ForEach(section.tasks){task in
+                    TaskView(task: task, section: section)
+//                    .draggable(task.id.uuidString)
+                }
+                .onMove{ indexSet, destination in
+                    viewModel.moveTaskInSection(from: indexSet, to: destination, in: section)
+                }
+                .onDelete { indexSet in
+                    viewModel.delete(at: indexSet, in: section)
+                }
+            }
+            if section.showEditingField == true {
+                CreateInSectionView(section: section)
+            }
+        } header: {
+            sectionHeader(section)
+        } footer: {
+            createButtonInSection(in: section)
+        }
+
+//        .dropDestination(for: String.self) { ids, _ in
+//            if let taskID = ids.first {
+//                viewModel.moveTaskToSection(taskID, to: section)
+//            }
+//            print("dropped")
+//            return true
+//        }
     }
     
     private func sectionHeader(_ section: TaskSection) -> some View {
