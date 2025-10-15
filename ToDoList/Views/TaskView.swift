@@ -36,21 +36,7 @@ struct TaskView: View {
             }
 
             // show due date
-            if let ddlString = task.formattedDDL {
-                Label {
-                    if task.status != .done{
-                        Text(ddlString)
-                            .font(.caption)
-                    } else {
-                        EmptyView()
-                    }
-                } icon: {
-                    Image(systemName: task.ddlImg)
-                        .font(.caption)
-                }
-                .labelStyle(.titleAndIcon)
-                .foregroundStyle(task.ddlColor)
-            }
+            dueDateLabel
             
             priorityLabel
             
@@ -61,11 +47,32 @@ struct TaskView: View {
 
     }
     
-    
+    private var dueDateLabel: some View{
+        Button{
+            withAnimation(.spring) {
+                viewModel.showFullDate.toggle()
+            }
+        } label: {
+            if let ddlString = task.formattedDDL {
+                Label {
+                    Text(viewModel.showFullDate ? ddlString : "")
+                        .font(.caption)
+                } icon: {
+                    Image(systemName: task.ddlImg)
+                        .font(.caption)
+                }
+                .labelStyle(.titleAndIcon)
+                .foregroundStyle(task.ddlColor)
+            }
+        }
+        .buttonStyle(.borderless)
+    }
     
     private var priorityLabel: some View{
         Button {
-            viewModel.showFullLabel.toggle()
+            withAnimation(.spring) {
+                viewModel.showFullLabel.toggle()
+            }
         } label: {
             if let priority = task.priority {
                 Text( viewModel.showFullLabel ? priority.name : "")

@@ -54,6 +54,7 @@ class ToDoManager: ObservableObject{
     
     @Published var taskToEdit: Task? = nil
     @Published var showFullLabel = false
+    @Published var showFullDate = true
     
     private func remove(_ task: Task) -> Bool {
         guard let oldSectionIndex = sectionIndex(of: task.status) else {return false}
