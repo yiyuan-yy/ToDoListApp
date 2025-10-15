@@ -35,27 +35,24 @@ struct TaskView: View {
                 }
             }
 
-            VStack (alignment: .leading) {
-                priorityLabel
-                // show due date
-                if let ddlString = task.formattedDDL {
-                    Label {
-                        if task.status != .done{
-                            Text(ddlString)
-                                .font(.caption)
-                        } else {
-                            EmptyView()
-                        }
-                    } icon: {
-                        Image(systemName: task.ddlImg)
+            // show due date
+            if let ddlString = task.formattedDDL {
+                Label {
+                    if task.status != .done{
+                        Text(ddlString)
                             .font(.caption)
+                    } else {
+                        EmptyView()
                     }
-                    .labelStyle(.titleAndIcon)
-                    .foregroundStyle(task.ddlColor)
-                    
-                    
+                } icon: {
+                    Image(systemName: task.ddlImg)
+                        .font(.caption)
                 }
+                .labelStyle(.titleAndIcon)
+                .foregroundStyle(task.ddlColor)
             }
+            
+            priorityLabel
             
             Image(systemName: "chevron.right")
                 .foregroundStyle(.gray)
@@ -63,6 +60,8 @@ struct TaskView: View {
         }
 
     }
+    
+    
     
     private var priorityLabel: some View{
         Button {

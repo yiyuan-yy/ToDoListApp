@@ -33,7 +33,10 @@ struct Task: Identifiable, Equatable, Hashable{
                 return "Yesterday"
             }
             
-            return ddl.formatted(date: .abbreviated, time: .omitted)
+            let formatter = DateFormatter()
+            formatter.dateStyle = .short
+            formatter.timeStyle = .none
+            return formatter.string(from: ddl)
         }
         return nil
     }

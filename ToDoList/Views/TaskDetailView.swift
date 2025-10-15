@@ -128,11 +128,11 @@ struct TaskDetailView: View {
         Section {
             EmptyView() // no content, only header
         } header: {
-            Button {
-                withAnimation(.spring){
-                    draft.status = draft.status.nextStatus
-                }
-            } label: {
+//            Button {
+//                withAnimation(.spring){
+//                    draft.status = draft.status.nextStatus
+//                }
+//            } label: {
                 HStack {
                     Spacer()
                     Text(draft.status.name)
@@ -148,7 +148,7 @@ struct TaskDetailView: View {
                 )
                 .padding(.horizontal)
             }
-        }
+//        }
     }
 
     private func setDraft(){
