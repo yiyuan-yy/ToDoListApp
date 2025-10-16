@@ -10,10 +10,6 @@ struct Board: Identifiable, Equatable{
     var id = UUID()
     var name: String = "Personal"
     var sections: [TaskSection] = Board.empty
-    
-    static func == (lhs: Board, rhs: Board) -> Bool{
-        return lhs.name == rhs.name
-    }
 }
 
 extension Board{
