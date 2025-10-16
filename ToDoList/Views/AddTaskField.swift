@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CreateInSectionView: View {
+struct AddTaskField: View {
     @EnvironmentObject var viewModel: ToDoManager
     @State private var draft: Task = Task()
     let section: TaskSection
@@ -42,6 +42,6 @@ struct CreateInSectionView: View {
 }
 
 #Preview {
-    CreateInSectionView(section: TaskSection(id: .todo))
+    AddTaskField(section: TaskSection(id: .todo))
         .environmentObject(ToDoManager())
 }

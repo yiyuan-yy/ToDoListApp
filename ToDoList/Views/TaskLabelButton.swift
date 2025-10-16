@@ -1,5 +1,5 @@
 //
-//  LabelButton.swift
+//  TaskLabelButton.swift
 //  ToDoList
 //
 //  Created by yiyuan hu on 9/23/25.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct LabelButton: View {
+struct TaskLabelButton: View {
     @Binding var controller: Bool
     var title: String = ""
     var removeAction: ()->Void
@@ -30,5 +30,5 @@ struct LabelButton: View {
 }
 
 #Preview {
-    LabelButton(controller: .constant(false), removeAction: {})
+    TaskLabelButton(controller: .constant(false), removeAction: {})
 }

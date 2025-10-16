@@ -46,8 +46,27 @@ struct TaskDetailView: View {
         })
     }
     
-    private var submitButton: some View{
-        // Submit
+}
+
+// MARK: - Component
+private extension TaskDetailView {
+    // init the draft in the form
+    func setDraft(){
+        if showDatePicker {
+            draft.ddl = temporyDDL
+        } else {
+            draft.ddl = nil
+        }
+        
+        if showPriorityPicker {
+            draft.priority = temporyPriority
+        } else {
+            draft.priority = nil
+        }
+    }
+    
+    // Submit
+    var submitButton: some View{
         Section {
             EmptyView()
         } header: {
@@ -67,8 +86,8 @@ struct TaskDetailView: View {
         }
     }
     
-    private var descriptionField: some View{
-        // Description
+    // Description
+   var descriptionField: some View{
         Section(header: Label("Description", systemImage: "text.justify.left")) {
             ZStack(alignment: .topLeading) {
                 if draft.description.isEmpty {
@@ -84,14 +103,14 @@ struct TaskDetailView: View {
         }
     }
     
-    private var detailsField: some View{
-        // Priority & Date
+    // Priority & Date
+   var detailsField: some View{
         Section(header: Label("Details", systemImage: "slider.horizontal.3")) {
             HStack {
-                LabelButton(controller: $showPriorityPicker, title: "Priority") {
+                TaskLabelButton(controller: $showPriorityPicker, title: "Priority") {
                     draft.priority = nil
                 }
-                LabelButton(controller: $showDatePicker, title: "Due Date") {
+                TaskLabelButton(controller: $showDatePicker, title: "Due Date") {
                     draft.ddl = nil
                 }
                 Spacer()
@@ -113,8 +132,8 @@ struct TaskDetailView: View {
         }
     }
     
-    private var titleField: some View{
-        // Title
+    // Title
+    var titleField: some View{
         Section {
             TextField("Enter Title", text: $draft.title)
                 .font(.title2.weight(.semibold))
@@ -123,16 +142,11 @@ struct TaskDetailView: View {
         }
     }
     
-    private var statusView: some View{
-        // Status Cover
+    // Status Cover
+   var statusView: some View{
         Section {
             EmptyView() // no content, only header
         } header: {
-//            Button {
-//                withAnimation(.spring){
-//                    draft.status = draft.status.nextStatus
-//                }
-//            } label: {
                 HStack {
                     Spacer()
                     Text(draft.status.name)
@@ -148,23 +162,7 @@ struct TaskDetailView: View {
                 )
                 .padding(.horizontal)
             }
-//        }
     }
-
-    private func setDraft(){
-        if showDatePicker {
-            draft.ddl = temporyDDL
-        } else {
-            draft.ddl = nil
-        }
-        
-        if showPriorityPicker {
-            draft.priority = temporyPriority
-        } else {
-            draft.priority = nil
-        }
-    }
-    
 }
 
 #Preview {

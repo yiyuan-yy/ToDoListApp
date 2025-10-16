@@ -6,48 +6,52 @@
 //
 import SwiftUI
 
-struct TaskView: View {
+struct TaskInListView: View {
     @EnvironmentObject var viewModel: ToDoManager
     let task: Task
     let section: TaskSection
     
     var body: some View {
         HStack {
-            Button {
-                withAnimation(.spring) {
-                    viewModel.switchTaskStatus(task, in: section)
-                }
-            } label: {
-                Image(systemName: task.status.imgName)
-                    .symbolRenderingMode(.palette)
-                    .font(.system(size: 18))
-                    .foregroundStyle(task.status != .todo ? .white : .blue, task.status == .done ? .darkGreenC : .blue)
-            }
-            .buttonStyle(.borderless)
-        
-            
-            Button {
-                viewModel.taskToEdit = task
-            } label: {
-                HStack {
-                    Text(task.title.capitalized)
-                    Spacer()
-                }
-            }
-
-            // show due date
+            switchstatusButton
+            navigationSpace
             dueDateLabel
-            
             priorityLabel
-            
             Image(systemName: "chevron.right")
                 .foregroundStyle(.gray)
-           
         }
+    }
+}
 
+
+// MARK: - Components
+private extension TaskInListView {
+    var switchstatusButton: some View{
+        Button {
+            withAnimation(.spring) {
+                viewModel.switchTaskStatus(task, in: section)
+            }
+        } label: {
+            Image(systemName: task.status.imgName)
+                .symbolRenderingMode(.palette)
+                .font(.system(size: 18))
+                .foregroundStyle(task.status != .todo ? .white : .blue, task.status == .done ? .darkGreenC : .blue)
+        }
+        .buttonStyle(.borderless)
     }
     
-    private var dueDateLabel: some View{
+    var navigationSpace: some View {
+        Button {
+            viewModel.taskToEdit = task
+        } label: {
+            HStack {
+                Text(task.title.capitalized)
+                Spacer()
+            }
+        }
+    }
+    
+    var dueDateLabel: some View{
         Button{
             withAnimation(.spring) {
                 viewModel.showFullDate.toggle()
@@ -68,7 +72,7 @@ struct TaskView: View {
         .buttonStyle(.borderless)
     }
     
-    private var priorityLabel: some View{
+    var priorityLabel: some View{
         Button {
             withAnimation(.spring) {
                 viewModel.showFullLabel.toggle()
@@ -84,14 +88,12 @@ struct TaskView: View {
             }
         }
         .buttonStyle(.borderless)
-
     }
-    
     
 }
 
 #Preview {
-    TaskView(task: Task(title: "Preview Example"), section: TaskSection(id: .doing))
+    TaskInListView(task: Task(title: "Preview Example"), section: TaskSection(id: .doing))
         .environmentObject(ToDoManager())
 }
 

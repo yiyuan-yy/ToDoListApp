@@ -32,7 +32,7 @@ struct BoardDetailView: View {
         Section {
             if section.expanded == true {
                 ForEach(section.tasks){task in
-                    TaskView(task: task, section: section)
+                    TaskInListView(task: task, section: section)
 //                    .draggable(task.id.uuidString)
                 }
                 .onMove{ indexSet, destination in
@@ -43,7 +43,7 @@ struct BoardDetailView: View {
                 }
             }
             if section.showEditingField == true {
-                CreateInSectionView(section: section)
+                AddTaskField(section: section)
             }
         } header: {
             sectionHeader(section)
