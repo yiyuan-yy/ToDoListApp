@@ -8,7 +8,6 @@
 import Foundation
 
 class ToDoManager: ObservableObject{
-    
     //  Boards
     @Published var boards: [Board] = [
         Board(name: "Personal",sections: Board.example),
@@ -47,6 +46,11 @@ class ToDoManager: ObservableObject{
 
 // MARK: - Manipulation of boards
 extension ToDoManager {
+    // check a board is the current selected board
+    func isCurrentBoard(_ board: Board) -> Bool {
+       return board.id == boards[currentBoardIndex].id
+    }
+    
     // switch to another board by board
     func switchToBoard(to board: Board){
         if let boardIndex = boards.firstIndex(of: board){
@@ -95,9 +99,13 @@ extension ToDoManager {
         print(addBoardError?.localizedDescription ?? "")
         return false
     }
+    
+    // Rename a board
+    
+    // Delete a board
 }
 
-// MARKL - Toggle section expanding and editing status
+// MARK: - Toggle section expanding and editing status
 extension ToDoManager {
     // switch tasks section expanded or not
     func toggleExpanded(_ target: TaskSection){
@@ -175,11 +183,13 @@ extension ToDoManager {
         boards[currentBoardIndex].sections[indexS].tasks.remove(atOffsets: indexSet)
     }
     
-    // Drag and Move
+    // Move in section
     func moveTaskInSection(from source: IndexSet, to destination: Int, in section: TaskSection) {
         guard let sectionIndex = self.sectionIndex(of: section) else {return}
         boards[currentBoardIndex].sections[sectionIndex].tasks.move(fromOffsets: source, toOffset: destination)
     }
+    
+    // Move one task from one board to another
     
     //    func moveTaskToSection(_ id: String, to section: TaskSection){
     //        guard let task = findTask(by: id) else {return}

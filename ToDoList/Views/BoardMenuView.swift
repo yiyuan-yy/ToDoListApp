@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct BoardListView: View {
+struct BoardMenuView: View {
     @EnvironmentObject var viewModel: ToDoManager
     @State private var newBoardName: String = ""
     @State private var showingAddBoardAlert = false
@@ -48,7 +48,7 @@ struct BoardListView: View {
 
 
 // MARK: - Compact Menu (iPhone)
-private extension BoardListView {
+private extension BoardMenuView {
     var compactBoardMenu: some View{
         Menu {
             boardsList
@@ -56,13 +56,12 @@ private extension BoardListView {
             createBoardButton
         } label: {
             Label("Boards", systemImage: "rectangle.grid.2x2")
-                .font(.title3)
         }
     }
 }
 
 // MARK: - Sidebar List (iPad & Mac)
-private extension BoardListView {
+private extension BoardMenuView {
     var sidebarBoardList: some View{
         List {
            boardsList
@@ -78,7 +77,7 @@ private extension BoardListView {
 }
 
 // MARK: - Components
-private extension BoardListView {
+private extension BoardMenuView {
     var boardsList: some View{
         ForEach(viewModel.boards){ board in
             Button {
@@ -87,24 +86,40 @@ private extension BoardListView {
                 }
             } label: {
                 HStack {
-//                   Image(systemName: "square.grid.2x2")
                    Text(board.name)
+                    Spacer()
+                    if viewModel.isCurrentBoard(board) {
+                        Image(systemName: "checkmark")
+                    }
                }
+                .padding()
+                .background(
+                    viewModel.isCurrentBoard(board)
+                    ? Color.accentColor.opacity(0.2)
+                    : Color.clear
+                )
+                .cornerRadius(8)
             }
         }
     }
+    
     
     var createBoardButton: some View{
         // Add new board button
         Button {
             showingAddBoardAlert = true
         } label: {
-            Label("New Board", systemImage: "plus.circle")
+            Label {
+                Text("New Board")
+            } icon: {
+                Image(systemName: "plus.circle")
+            }
+
         }
     }
 }
 
 #Preview {
-    BoardListView()
+    BoardMenuView()
         .environmentObject(ToDoManager())
 }
