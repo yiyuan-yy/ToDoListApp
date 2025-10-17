@@ -10,8 +10,10 @@ import SwiftUI
 struct BoardMenuView: View {
     @EnvironmentObject var viewModel: ToDoManager
     @State private var newBoardName: String = ""
-    @State private var showingAddBoardAlert = false
+    @State private var showingAddBoardField = false
     @State private var showingAddError = false
+    @State private var showingRenameField = false
+    @State private var showingRenameError = false
     
     var body: some View {
         Group {
@@ -21,11 +23,11 @@ struct BoardMenuView: View {
                 sidebarBoardList
             }
         }
-        .alert("New Board", isPresented: $showingAddBoardAlert) {
+        .alert("New Board", isPresented: $showingAddBoardField) {
             TextField("Board name", text: $newBoardName)
             Button("Cancel") {
                 newBoardName = ""
-                showingAddBoardAlert = false
+                showingAddBoardField = false
             }
             Button("Create") {
                 if viewModel.addNewBoard(named: newBoardName) {
@@ -35,12 +37,25 @@ struct BoardMenuView: View {
                 }
             }
         }
-        .alert(isPresented: $showingAddError, error: viewModel.addBoardError) { _ in
-            Button ("OK") {
-                showingAddBoardAlert = true
+        .alert("Rename", isPresented: $showingRenameField) {
+            TextField("Board name", text: $newBoardName)
+            Button("Cancel") {
+                newBoardName = ""
+                showingRenameField = false
             }
-        } message: { error in
-            Text("Please set another name.")
+            Button("Done") {
+                if viewModel.renameBoard(with: newBoardName) {
+                    newBoardName = ""
+                } else {
+                    showingRenameError = true
+                }
+            }
+        }
+        .boardNameAlert(isPresented: $showingRenameError){
+            showingRenameField = true
+        }
+        .boardNameAlert(isPresented: $showingAddError) {
+            showingAddBoardField = true
         }
     }
 
@@ -54,6 +69,12 @@ private extension BoardMenuView {
             boardsList
             Divider()
             createBoardButton
+//            Button("Rename Board") {
+//                showingRenameField = true
+//            }
+//            Button("Delete Board") {
+//                
+//            }
         } label: {
             Label("Boards", systemImage: "rectangle.grid.2x2")
         }
@@ -107,12 +128,12 @@ private extension BoardMenuView {
     var createBoardButton: some View{
         // Add new board button
         Button {
-            showingAddBoardAlert = true
+            showingAddBoardField = true
         } label: {
             Label {
                 Text("New Board")
             } icon: {
-                Image(systemName: "plus.circle")
+                Image(systemName: "plus")
             }
 
         }

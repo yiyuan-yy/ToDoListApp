@@ -8,8 +8,12 @@ import Foundation
 
 struct Board: Identifiable, Equatable{
     var id = UUID()
-    var name: String = "Personal"
+    private(set) var name: String = "Personal"
     var sections: [TaskSection] = Board.empty
+    
+    mutating func rename(_ newName: String){
+        self.name = newName
+    }
 }
 
 extension Board{

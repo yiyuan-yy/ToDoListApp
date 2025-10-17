@@ -15,7 +15,7 @@ class ToDoManager: ObservableObject{
         Board(name: "Study", sections: Board.exampleStudy),
     ]
     @Published var currentBoardIndex: Int = 0
-    @Published var addBoardError: AddBoardError? = nil
+    @Published var boardNameError: BoardNameError? = nil
 
     // Computed variables of boards
     var currentSections: [TaskSection] {
@@ -59,7 +59,7 @@ extension ToDoManager {
     }
     
     // possible errors when adding board
-    enum AddBoardError: LocalizedError, Identifiable {
+    enum BoardNameError: LocalizedError, Identifiable {
         var id: Self {return self}
         
         case emptyName
@@ -78,14 +78,14 @@ extension ToDoManager {
     // check the board name is correct
     private func checkBoardName(_ name: String) -> Bool {
         if name == "" {
-            addBoardError = .emptyName
+            boardNameError = .emptyName
             return false
         }
         if boards.firstIndex(where: { $0.name == name}) != nil {
-            addBoardError = .duplicateName
+            boardNameError = .duplicateName
             return false
         }
-        addBoardError = nil
+        boardNameError = nil
         return true
     }
     
@@ -96,12 +96,17 @@ extension ToDoManager {
             currentBoardIndex = boards.count - 1
             return true
         }
-        print(addBoardError?.localizedDescription ?? "")
         return false
     }
     
     // Rename a board
-    
+    func renameBoard(with name: String) -> Bool {
+        if checkBoardName(name){
+            boards[currentBoardIndex].rename(name)
+            return true
+        }
+        return false
+    }
     // Delete a board
 }
 

@@ -6,19 +6,24 @@
 //
 
 import SwiftUI
-import SwiftUIReorderableForEach
 
 struct BoardDetailView: View {
     @EnvironmentObject var viewModel: ToDoManager
     @State private var isDropTargeted = false
+    @State private var newBoardName: String = ""
+    @State private var showingRenameField = false
+    @State private var showingRenameError = false
     
     var body: some View {
-        List{
-            sectionView(viewModel.currentSections[0])
-            sectionView(viewModel.currentSections[1])
-            sectionView(viewModel.currentSections[2])
+        VStack {
+            List{
+                sectionView(viewModel.currentSections[0])
+                sectionView(viewModel.currentSections[1])
+                sectionView(viewModel.currentSections[2])
+            }
+            .listStyle(.insetGrouped)
+            
         }
-        .listStyle(.insetGrouped)
         .sheet(item: $viewModel.taskToEdit) { task in
             TaskDetailView(task)
                 .environmentObject(viewModel)
@@ -28,7 +33,11 @@ struct BoardDetailView: View {
         .environmentObject(viewModel)
     }
     
-    private func sectionView(_ section: TaskSection) -> some View{
+}
+
+// MARK: - Components
+private extension BoardDetailView {
+    func sectionView(_ section: TaskSection) -> some View{
         Section {
             if section.expanded == true {
                 ForEach(section.tasks){task in
@@ -50,7 +59,6 @@ struct BoardDetailView: View {
         } footer: {
             createButtonInSection(in: section)
         }
-
 //        .dropDestination(for: String.self) { ids, _ in
 //            if let taskID = ids.first {
 //                viewModel.moveTaskToSection(taskID, to: section)
@@ -60,7 +68,7 @@ struct BoardDetailView: View {
 //        }
     }
     
-    private func sectionHeader(_ section: TaskSection) -> some View {
+    func sectionHeader(_ section: TaskSection) -> some View {
         HStack {
             Text(section.id.name)
             Button {
@@ -75,7 +83,7 @@ struct BoardDetailView: View {
         }
     }
 
-    private func createButtonInSection(in section: TaskSection) -> some View{
+    func createButtonInSection(in section: TaskSection) -> some View{
         Button {
             withAnimation(.spring) {
                 viewModel.toggleEditingField(in: section)
@@ -85,7 +93,6 @@ struct BoardDetailView: View {
                 .font(section.expanded ? .body : .footnote)
         }
     }
-    
 }
 
 #Preview {
