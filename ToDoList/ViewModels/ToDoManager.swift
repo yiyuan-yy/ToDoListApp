@@ -107,7 +107,19 @@ extension ToDoManager {
         }
         return false
     }
+    
     // Delete a board
+    func deleteCurrentBoard() {
+        guard boards.count > 1 else { return }
+
+        let indexToRemove = currentBoardIndex
+        boards.remove(at: indexToRemove)
+
+        // Ensure index is still within valid range
+        currentBoardIndex = min(currentBoardIndex, boards.count - 1)
+
+    }
+
 }
 
 // MARK: - Toggle section expanding and editing status

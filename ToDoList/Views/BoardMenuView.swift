@@ -12,8 +12,6 @@ struct BoardMenuView: View {
     @State private var newBoardName: String = ""
     @State private var showingAddBoardField = false
     @State private var showingAddError = false
-    @State private var showingRenameField = false
-    @State private var showingRenameError = false
     
     var body: some View {
         Group {
@@ -37,23 +35,6 @@ struct BoardMenuView: View {
                 }
             }
         }
-        .alert("Rename", isPresented: $showingRenameField) {
-            TextField("Board name", text: $newBoardName)
-            Button("Cancel") {
-                newBoardName = ""
-                showingRenameField = false
-            }
-            Button("Done") {
-                if viewModel.renameBoard(with: newBoardName) {
-                    newBoardName = ""
-                } else {
-                    showingRenameError = true
-                }
-            }
-        }
-        .boardNameAlert(isPresented: $showingRenameError){
-            showingRenameField = true
-        }
         .boardNameAlert(isPresented: $showingAddError) {
             showingAddBoardField = true
         }
@@ -69,14 +50,9 @@ private extension BoardMenuView {
             boardsList
             Divider()
             createBoardButton
-//            Button("Rename Board") {
-//                showingRenameField = true
-//            }
-//            Button("Delete Board") {
-//                
-//            }
         } label: {
             Label("Boards", systemImage: "rectangle.grid.2x2")
+                .labelStyle(.iconOnly)
         }
     }
 }
@@ -102,7 +78,7 @@ private extension BoardMenuView {
     var boardsList: some View{
         ForEach(viewModel.boards){ board in
             Button {
-                withAnimation(.spring) {
+                withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
                     viewModel.switchToBoard(to: board)
                 }
             } label: {

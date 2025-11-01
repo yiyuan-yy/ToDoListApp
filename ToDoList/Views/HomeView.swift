@@ -28,7 +28,7 @@ struct HomeView: View {
         NavigationStack {
             BoardDetailView()
                 .toolbar {
-                    ToolbarItem {
+                    ToolbarItem(placement: .primaryAction) {
                         BoardMenuView()
                     }
                 }
