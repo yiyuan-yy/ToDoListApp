@@ -18,6 +18,12 @@ struct AddTaskField: View {
                 .autocorrectionDisabled()
                 .textInputAutocapitalization(.never)
                 .textFieldStyle(.roundedBorder)
+                .submitLabel(.done)
+                .onSubmit {
+                    if viewModel.createToDoInSection(draft, in: section){
+                        draft = Task() //reset draft
+                    }
+                }
             Spacer()
             Button {
                 if viewModel.createToDoInSection(draft, in: section){
@@ -29,9 +35,9 @@ struct AddTaskField: View {
             .buttonStyle(.borderedProminent)
         }
         .padding(.vertical,5)
-        .alert("", isPresented: $viewModel.showAlert, actions: {
+        .alert("", isPresented: $viewModel.showTaskTitleAlert, actions: {
             Button {
-                viewModel.showAlert = false
+                viewModel.showTaskTitleAlert = false
             } label: {
                 Text("OK")
             }
@@ -39,6 +45,8 @@ struct AddTaskField: View {
             Text(viewModel.alertMessage)
         })
     }
+    
+
 }
 
 #Preview {

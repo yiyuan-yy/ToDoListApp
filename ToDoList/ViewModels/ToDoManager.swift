@@ -35,7 +35,7 @@ class ToDoManager: ObservableObject{
     }
     
     //  Tasks
-    @Published var showAlert = false
+    @Published var showTaskTitleAlert = false
     @Published var alertMessage: String = ""
     @Published var showCreateSheet = false
     
@@ -155,7 +155,7 @@ extension ToDoManager {
     private func validate(_ new: Task) ->Bool {
         // check if title is empty or less than 2 characters
         if new.title.count <= 2{
-            showAlert = true
+            showTaskTitleAlert = true
             alertMessage = "Title is empty or too short!"
             return false
         } else {

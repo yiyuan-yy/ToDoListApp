@@ -35,9 +35,9 @@ struct TaskDetailView: View {
             descriptionField
             submitButton
         }
-        .alert("", isPresented: $viewModel.showAlert, actions: {
+        .alert("", isPresented: $viewModel.showTaskTitleAlert, actions: {
             Button {
-                viewModel.showAlert = false
+                viewModel.showTaskTitleAlert = false
             } label: {
                 Text("OK")
             }
