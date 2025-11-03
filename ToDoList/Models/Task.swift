@@ -42,7 +42,7 @@ struct Task: Identifiable, Equatable, Hashable{
     }
     
     
-    var isInToday: Bool{
+    var isInTodayorTomorrow: Bool{
         let calendar = Calendar.current
         
         if let ddl = self.ddl{
@@ -59,7 +59,7 @@ struct Task: Identifiable, Equatable, Hashable{
     var ddlImg: String {
         if let ddl = self.ddl {
             if status != .done{
-                if isInToday {
+                if isInTodayorTomorrow {
                     return "clock"
                 }
                 if ddl < Date(){
@@ -78,13 +78,13 @@ struct Task: Identifiable, Equatable, Hashable{
     var ddlColor: Color{
         if let ddl = self.ddl {
             if status != .done{
-                if isInToday {
+                if isInTodayorTomorrow {
                     return Color.blue
                 }
                 if ddl <= Date(){
                     return Color.red
                 } else {
-                    return Color.gray
+                    return Color.green
                 }
             } else {
                 return Color.gray

@@ -263,7 +263,7 @@ private extension ToDoManager {
     }
     
     // get a task by its id
-    func findTask(by id: String)->Task?{
+    func findTask(by id: String) -> Task?{
         let allTasks = currentSections.flatMap {$0.tasks}
         return allTasks.first {$0.id.uuidString == id}
     }

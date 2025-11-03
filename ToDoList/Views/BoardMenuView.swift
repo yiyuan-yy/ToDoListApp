@@ -63,7 +63,7 @@ private extension BoardMenuView {
         List {
            boardsList
        }
-       .listStyle(.sidebar)
+        .listStyle(.inset)
        .navigationTitle("Boards")
        .toolbar {
            ToolbarItem{

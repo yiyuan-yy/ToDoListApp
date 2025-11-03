@@ -23,7 +23,7 @@ struct BoardDetailView: View {
             sectionView(viewModel.currentSections[1])
             sectionView(viewModel.currentSections[2])
         }
-        .listStyle(.insetGrouped)
+        .listStyle(.inset)
         .sheet(item: $viewModel.taskToEdit) { task in
             TaskDetailView(task)
                 .environmentObject(viewModel)
