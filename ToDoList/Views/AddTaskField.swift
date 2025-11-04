@@ -16,8 +16,10 @@ struct AddTaskField: View {
         HStack(alignment: .top) {
             TextField("Title", text: $draft.title)
                 .autocorrectionDisabled()
+            #if os(iOS)
                 .textInputAutocapitalization(.never)
                 .textFieldStyle(.roundedBorder)
+            #endif
                 .submitLabel(.done)
                 .onSubmit {
                     if viewModel.createToDoInSection(draft, in: section){

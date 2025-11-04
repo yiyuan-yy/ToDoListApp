@@ -49,6 +49,7 @@ private extension TaskInListView {
                 Spacer()
             }
         }
+        .buttonStyle(.borderless)
     }
     
     var dueDateLabel: some View{

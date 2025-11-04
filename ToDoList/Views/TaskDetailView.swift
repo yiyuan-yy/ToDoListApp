@@ -1,10 +1,3 @@
-//
-//  TaskDetailView.swift
-//  ToDoList
-//
-//  Created by yiyuan hu on 9/18/25.
-//
-
 import SwiftUI
 
 struct TaskDetailView: View {
@@ -98,7 +91,9 @@ private extension TaskDetailView {
                 TextEditor(text: $draft.description)
                     .frame(minHeight: 120)
                     .autocorrectionDisabled()
+                #if os(iOS)
                     .textInputAutocapitalization(.never)
+                #endif
             }
         }
     }
@@ -138,7 +133,9 @@ private extension TaskDetailView {
             TextField("Enter Title", text: $draft.title)
                 .font(.title2.weight(.semibold))
                 .autocorrectionDisabled()
+            #if os(iOS)
                 .textInputAutocapitalization(.never)
+            #endif
         }
     }
     

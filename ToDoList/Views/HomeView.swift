@@ -12,29 +12,38 @@ struct HomeView: View {
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
     @Environment(\.verticalSizeClass) var verticalSizeClass
     
-    var body: some View {
+    #if os(iOS)
+    private var iOSLayout: some View{
         Group{
-            if UIDevice.isIPhone{
-                compactView
-            } else {
+            if UIDevice.isIPhone { // for iPhone
+                NavigationStack {
+                    BoardDetailView()
+                        .toolbar {
+                            ToolbarItem(placement: .primaryAction) {
+                                BoardMenuView()
+                            }
+                        }
+                        .environmentObject(viewModel)
+                }
+            } else { // for iPad
                 splitHomeView
             }
         }
-        
     }
+    #endif
     
-    // MARK: - Compact Home View (iPhone)
-    private var compactView: some View{
-        NavigationStack {
-            BoardDetailView()
-                .toolbar {
-                    ToolbarItem(placement: .primaryAction) {
-                        BoardMenuView()
-                    }
-                }
-                .environmentObject(viewModel)
-        }
-        
+    #if os(macOS)
+    private var macLayout: some View{
+        splitHomeView // for Mac
+    }
+    #endif
+    
+    var body: some View {
+        #if os(iOS)
+        iOSLayout
+        #elseif os(macOS)
+        macLayout
+        #endif
     }
     
     // MARK: - Split Home View (iPad & Mac)
@@ -42,8 +51,6 @@ struct HomeView: View {
         NavigationSplitView {
             BoardMenuView()
                 .navigationTitle("Boards")
-                .navigationSplitViewColumnWidth(
-                            min: 150, ideal: 250, max: 400)
                 .environmentObject(viewModel)
         } detail: {
             BoardDetailView()

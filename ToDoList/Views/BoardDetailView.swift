@@ -29,7 +29,9 @@ struct BoardDetailView: View {
                 .environmentObject(viewModel)
         }
         .navigationTitle(viewModel.currentBoardName)
+        #if os(iOS)
         .navigationBarTitleDisplayMode(.large)
+        #endif
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 Menu {
@@ -160,6 +162,7 @@ private extension BoardDetailView {
                     .font(.caption)
                     .rotationEffect(section.expanded == true ? .degrees(0) : .degrees(-90))
             }
+            .buttonStyle(.borderless)
         }
     }
 
@@ -172,6 +175,7 @@ private extension BoardDetailView {
             Image(systemName: section.showEditingField ? "minus" : "plus")
                 .font(section.expanded ? .body : .footnote)
         }
+        .buttonStyle(.borderless)
     }
 }
 

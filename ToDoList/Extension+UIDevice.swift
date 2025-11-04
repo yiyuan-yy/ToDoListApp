@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-
+#if os(iOS)
 extension UIDevice {
     static var isIPad: Bool{
         UIDevice.current.userInterfaceIdiom == .pad
@@ -18,4 +18,5 @@ extension UIDevice {
         UIDevice.current.userInterfaceIdiom == .phone
     }
 }
+#endif
 

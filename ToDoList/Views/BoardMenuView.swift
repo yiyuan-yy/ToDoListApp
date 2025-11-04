@@ -15,11 +15,16 @@ struct BoardMenuView: View {
     
     var body: some View {
         Group {
+            #if os(iOS)
             if UIDevice.isIPhone {
                 compactBoardMenu
             } else {
                 sidebarBoardList
             }
+            #elseif os(macOS)
+            sidebarBoardList
+            #endif
+            
         }
         .alert("New Board", isPresented: $showingAddBoardField) {
             TextField("Board name", text: $newBoardName)
@@ -97,6 +102,7 @@ private extension BoardMenuView {
                 )
                 .cornerRadius(8)
             }
+            .buttonStyle(.borderless)
         }
     }
     
