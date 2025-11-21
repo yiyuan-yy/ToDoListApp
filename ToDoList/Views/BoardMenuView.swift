@@ -67,6 +67,7 @@ private extension BoardMenuView {
     var sidebarBoardList: some View{
         List {
            boardsList
+                .listRowSeparator(.hidden)
        }
         .listStyle(.inset)
        .navigationTitle("Boards")

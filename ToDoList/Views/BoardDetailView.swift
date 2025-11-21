@@ -124,6 +124,7 @@ private extension BoardDetailView {
             if section.expanded == true {
                 ForEach(section.tasks){task in
                     TaskInListView(task: task, section: section)
+                        .listRowSeparator(.hidden)
 //                    .draggable(task.id.uuidString)
                 }
                 .onMove{ indexSet, destination in
@@ -135,11 +136,13 @@ private extension BoardDetailView {
             }
             if section.showEditingField == true {
                 AddTaskField(section: section)
+                    
             }
         } header: {
             sectionHeader(section)
         } footer: {
             createButtonInSection(in: section)
+                .listRowSeparator(.hidden)
         }
 //        .dropDestination(for: String.self) { ids, _ in
 //            if let taskID = ids.first {

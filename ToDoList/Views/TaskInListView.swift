@@ -12,15 +12,25 @@ struct TaskInListView: View {
     let section: TaskSection
     
     var body: some View {
-        HStack {
-            switchstatusButton
-            navigationSpace
-            dueDateLabel
-            priorityLabel
-            Image(systemName: "chevron.right")
-                .foregroundStyle(.gray)
+        VStack {
+            HStack {
+                switchstatusButton
+                Spacer()
+                navigationSpace
+                dueDateLabel
+                priorityLabel
+                Image(systemName: "chevron.right")
+                    .foregroundStyle(.gray)
+            }
+            .padding(.top, 10)
+            // a line like list seperator
+            Rectangle()
+                .fill(Color.secondary.opacity(0.2))
+                .frame(maxWidth: .infinity)
+                .frame(height: 1)
         }
     }
+    
 }
 
 
