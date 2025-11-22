@@ -7,18 +7,97 @@
 	objects = {
 
 /* Begin PBXFileReference section */
+		691FC1A22ED044BF001F092A /* MacToDoList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacToDoList.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		691FC1EB2ED068D8001F092A /* iPadToDoList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iPadToDoList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		69D9CF5C2E7B973F004E3E49 /* ToDoList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToDoList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		691FC1AF2ED04508001F092A /* Exceptions for "ToDoList" folder in "MacToDoList" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Colors.xcassets,
+				Models/Board.swift,
+				Models/Priority.swift,
+				Models/Status.swift,
+				Models/Task.swift,
+				Models/TaskSection.swift,
+				ViewModels/ToDoManager.swift,
+				"Views+Components/AddTaskField.swift",
+				"Views+Components/BoardNameAlertModifier.swift",
+				"Views+Components/TaskLabelButton.swift",
+			);
+			target = 691FC1A12ED044BF001F092A /* MacToDoList */;
+		};
+		691FC1F72ED0691E001F092A /* Exceptions for "ToDoList" folder in "iPadToDoList" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Colors.xcassets,
+				Models/Board.swift,
+				Models/Priority.swift,
+				Models/Status.swift,
+				Models/Task.swift,
+				Models/TaskSection.swift,
+				ViewModels/ToDoManager.swift,
+				Views/BoardView.swift,
+				Views/SectionView.swift,
+				Views/TaskDetailView.swift,
+				Views/TaskInListView.swift,
+				"Views+Components/AddTaskField.swift",
+				"Views+Components/BoardNameAlertModifier.swift",
+				"Views+Components/TaskLabelButton.swift",
+			);
+			target = 691FC1EA2ED068D8001F092A /* iPadToDoList */;
+		};
+		691FC20F2ED06A07001F092A /* Exceptions for "MacToDoList" folder in "iPadToDoList" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Views/BoardMenuView.swift,
+			);
+			target = 691FC1EA2ED068D8001F092A /* iPadToDoList */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		691FC1A32ED044BF001F092A /* MacToDoList */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				691FC20F2ED06A07001F092A /* Exceptions for "MacToDoList" folder in "iPadToDoList" target */,
+			);
+			path = MacToDoList;
+			sourceTree = "<group>";
+		};
+		691FC1EC2ED068D8001F092A /* iPadToDoList */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = iPadToDoList;
+			sourceTree = "<group>";
+		};
 		69D9CF5E2E7B973F004E3E49 /* ToDoList */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				691FC1AF2ED04508001F092A /* Exceptions for "ToDoList" folder in "MacToDoList" target */,
+				691FC1F72ED0691E001F092A /* Exceptions for "ToDoList" folder in "iPadToDoList" target */,
+			);
 			path = ToDoList;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		691FC19F2ED044BF001F092A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		691FC1E82ED068D8001F092A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		69D9CF592E7B973F004E3E49 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -33,6 +112,8 @@
 			isa = PBXGroup;
 			children = (
 				69D9CF5E2E7B973F004E3E49 /* ToDoList */,
+				691FC1A32ED044BF001F092A /* MacToDoList */,
+				691FC1EC2ED068D8001F092A /* iPadToDoList */,
 				69D9CF5D2E7B973F004E3E49 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,6 +122,8 @@
 			isa = PBXGroup;
 			children = (
 				69D9CF5C2E7B973F004E3E49 /* ToDoList.app */,
+				691FC1A22ED044BF001F092A /* MacToDoList.app */,
+				691FC1EB2ED068D8001F092A /* iPadToDoList.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -48,6 +131,50 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		691FC1A12ED044BF001F092A /* MacToDoList */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 691FC1AB2ED044C1001F092A /* Build configuration list for PBXNativeTarget "MacToDoList" */;
+			buildPhases = (
+				691FC19E2ED044BF001F092A /* Sources */,
+				691FC19F2ED044BF001F092A /* Frameworks */,
+				691FC1A02ED044BF001F092A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				691FC1A32ED044BF001F092A /* MacToDoList */,
+			);
+			name = MacToDoList;
+			packageProductDependencies = (
+			);
+			productName = MacToDoList;
+			productReference = 691FC1A22ED044BF001F092A /* MacToDoList.app */;
+			productType = "com.apple.product-type.application";
+		};
+		691FC1EA2ED068D8001F092A /* iPadToDoList */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 691FC1F32ED068DA001F092A /* Build configuration list for PBXNativeTarget "iPadToDoList" */;
+			buildPhases = (
+				691FC1E72ED068D8001F092A /* Sources */,
+				691FC1E82ED068D8001F092A /* Frameworks */,
+				691FC1E92ED068D8001F092A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				691FC1EC2ED068D8001F092A /* iPadToDoList */,
+			);
+			name = iPadToDoList;
+			packageProductDependencies = (
+			);
+			productName = iPadToDoList;
+			productReference = 691FC1EB2ED068D8001F092A /* iPadToDoList.app */;
+			productType = "com.apple.product-type.application";
+		};
 		69D9CF5B2E7B973F004E3E49 /* ToDoList */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 69D9CF672E7B9741004E3E49 /* Build configuration list for PBXNativeTarget "ToDoList" */;
@@ -80,6 +207,12 @@
 				LastSwiftUpdateCheck = 1640;
 				LastUpgradeCheck = 1640;
 				TargetAttributes = {
+					691FC1A12ED044BF001F092A = {
+						CreatedOnToolsVersion = 16.4;
+					};
+					691FC1EA2ED068D8001F092A = {
+						CreatedOnToolsVersion = 16.4;
+					};
 					69D9CF5B2E7B973F004E3E49 = {
 						CreatedOnToolsVersion = 16.4;
 					};
@@ -102,11 +235,27 @@
 			projectRoot = "";
 			targets = (
 				69D9CF5B2E7B973F004E3E49 /* ToDoList */,
+				691FC1A12ED044BF001F092A /* MacToDoList */,
+				691FC1EA2ED068D8001F092A /* iPadToDoList */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		691FC1A02ED044BF001F092A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		691FC1E92ED068D8001F092A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		69D9CF5A2E7B973F004E3E49 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -117,6 +266,20 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		691FC19E2ED044BF001F092A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		691FC1E72ED068D8001F092A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		69D9CF582E7B973F004E3E49 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -127,6 +290,130 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		691FC1AC2ED044C1001F092A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = MacToDoList/MacToDoList.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4V6DM6PBAU;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lynlan.ToDoList;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		691FC1AD2ED044C1001F092A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = MacToDoList/MacToDoList.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4V6DM6PBAU;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lynlan.ToDoList;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		691FC1F42ED068DA001F092A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4V6DM6PBAU;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lynlan.iToDoList;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = Debug;
+		};
+		691FC1F52ED068DA001F092A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 4V6DM6PBAU;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lynlan.iToDoList;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = Release;
+		};
 		69D9CF652E7B9741004E3E49 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -263,6 +550,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -271,13 +559,13 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.lynlan.ToDoList;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -296,6 +584,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -304,19 +593,37 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.lynlan.ToDoList;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		691FC1AB2ED044C1001F092A /* Build configuration list for PBXNativeTarget "MacToDoList" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				691FC1AC2ED044C1001F092A /* Debug */,
+				691FC1AD2ED044C1001F092A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		691FC1F32ED068DA001F092A /* Build configuration list for PBXNativeTarget "iPadToDoList" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				691FC1F42ED068DA001F092A /* Debug */,
+				691FC1F52ED068DA001F092A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		69D9CF572E7B973F004E3E49 /* Build configuration list for PBXProject "ToDoList" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

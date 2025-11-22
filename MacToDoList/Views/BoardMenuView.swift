@@ -14,14 +14,17 @@ struct BoardMenuView: View {
     @State private var showingAddError = false
     
     var body: some View {
-        Menu {
-            boardsList
-            Divider()
-            createBoardButton
-        } label: {
-            Label("Boards", systemImage: "rectangle.grid.2x2")
-                .labelStyle(.iconOnly)
-        }
+        List {
+           boardsList
+                .listRowSeparator(.hidden)
+       }
+        .listStyle(.inset)
+       .navigationTitle("Boards")
+       .toolbar {
+           ToolbarItem{
+               createBoardButton
+           }
+       }
         .alert("New Board", isPresented: $showingAddBoardField) {
             TextField("Board name", text: $newBoardName)
             Button("Cancel") {

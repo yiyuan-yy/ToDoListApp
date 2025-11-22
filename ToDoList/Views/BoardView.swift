@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct BoardDetailView: View {
+struct BoardView: View {
     @EnvironmentObject var viewModel: ToDoManager
     @State private var isDropTargeted = false
     @State private var newBoardName: String = ""
@@ -19,9 +19,9 @@ struct BoardDetailView: View {
     
     var body: some View {
         List{
-            sectionView(viewModel.currentSections[0])
-            sectionView(viewModel.currentSections[1])
-            sectionView(viewModel.currentSections[2])
+            SectionView(section: viewModel.currentSections[0])
+            SectionView(section: viewModel.currentSections[1])
+            SectionView(section: viewModel.currentSections[2])
         }
         .listStyle(.inset)
         .sheet(item: $viewModel.taskToEdit) { task in
@@ -29,9 +29,7 @@ struct BoardDetailView: View {
                 .environmentObject(viewModel)
         }
         .navigationTitle(viewModel.currentBoardName)
-        #if os(iOS)
         .navigationBarTitleDisplayMode(.large)
-        #endif
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 Menu {
@@ -67,9 +65,9 @@ struct BoardDetailView: View {
                     Label("Edit",  systemImage: "ellipsis.circle")
                         .labelStyle(.iconOnly)
                 }
-
+                
+                
             }
-        
         }
         .alert("Rename", isPresented: $showingRenameField) {
             TextField("Board name", text: $newBoardName)
@@ -117,72 +115,8 @@ struct BoardDetailView: View {
     
 }
 
-// MARK: - Components
-private extension BoardDetailView {
-    func sectionView(_ section: TaskSection) -> some View{
-        Section {
-            if section.expanded == true {
-                ForEach(section.tasks){task in
-                    TaskInListView(task: task, section: section)
-                        .listRowSeparator(.hidden)
-//                    .draggable(task.id.uuidString)
-                }
-                .onMove{ indexSet, destination in
-                    viewModel.moveTaskInSection(from: indexSet, to: destination, in: section)
-                }
-                .onDelete { indexSet in
-                    viewModel.delete(at: indexSet, in: section)
-                }
-            }
-            if section.showEditingField == true {
-                AddTaskField(section: section)
-                    
-            }
-        } header: {
-            sectionHeader(section)
-        } footer: {
-            createButtonInSection(in: section)
-                .listRowSeparator(.hidden)
-        }
-//        .dropDestination(for: String.self) { ids, _ in
-//            if let taskID = ids.first {
-//                viewModel.moveTaskToSection(taskID, to: section)
-//            }
-//            print("dropped")
-//            return true
-//        }
-    }
-    
-    func sectionHeader(_ section: TaskSection) -> some View {
-        HStack {
-            Text(section.id.name)
-            Button {
-                withAnimation(.spring) {
-                    viewModel.toggleExpanded(section)
-                }
-            } label: {
-                Image(systemName:  "chevron.down")
-                    .font(.caption)
-                    .rotationEffect(section.expanded == true ? .degrees(0) : .degrees(-90))
-            }
-            .buttonStyle(.borderless)
-        }
-    }
-
-    func createButtonInSection(in section: TaskSection) -> some View{
-        Button {
-            withAnimation(.spring) {
-                viewModel.toggleEditingField(in: section)
-            }
-        } label: {
-            Image(systemName: section.showEditingField ? "minus" : "plus")
-                .font(section.expanded ? .body : .footnote)
-        }
-        .buttonStyle(.borderless)
-    }
-}
 
 #Preview {
-    BoardDetailView()
+    BoardView()
         .environmentObject(ToDoManager())
 }

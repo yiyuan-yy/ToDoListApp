@@ -13,15 +13,15 @@ struct HomeView: View {
     @Environment(\.verticalSizeClass) var verticalSizeClass
     
     var body: some View {
-        NavigationStack {
+        NavigationSplitView {
+            BoardMenuView()
+                .navigationTitle("Boards")
+                .environmentObject(viewModel)
+        } detail: {
             BoardView()
-            .toolbar {
-                ToolbarItem(placement: .primaryAction) {
-                    BoardMenuView()
-                }
-            }
-            .environmentObject(viewModel)
+                .environmentObject(viewModel)
         }
+        .navigationSplitViewStyle(.balanced)
     }
     
 }
